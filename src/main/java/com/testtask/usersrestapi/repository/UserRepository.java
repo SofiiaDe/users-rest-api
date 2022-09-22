@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository {
+public class UserRepository implements IUserRepository{
 
   private List<User> list = new ArrayList<>();
 
@@ -19,11 +19,13 @@ public class UserRepository {
         "1996-09-17", "Warsaw", "044-444-44-44"));
   }
 
+  @Override
   public List<User> findAll() {
     createUsers();
     return list;
   }
 
+  @Override
   public Optional<User> findById(Long id) {
     User foundUser = new User();
     for (User user : list) {
@@ -34,6 +36,7 @@ public class UserRepository {
     return Optional.of(foundUser); // Optional.ofNullable ???
   }
 
+  @Override
   public User save(User newUser) {
     User user = new User();
     user.setId(newUser.getId());
@@ -47,6 +50,7 @@ public class UserRepository {
     return user;
   }
 
+  @Override
   public Optional<User> findUserByEmail(String email) {
     List<User> allUsers = findAll();
     return allUsers.stream().filter(user -> Objects.equals(user.getEmail(), email)).findFirst();

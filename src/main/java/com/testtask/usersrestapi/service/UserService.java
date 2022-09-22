@@ -21,12 +21,14 @@ public class UserService implements IUserService {
   private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
   private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
 
+  @Override
   public List<UserDto> getAllUsers() {
     return userRepository.findAll().stream()
         .map(userMapper::userToDto)
         .toList();
   }
 
+  @Override
   @Transactional
   public UserDto getUserById(Long id) {
     User user = userRepository.findById(id)
@@ -35,6 +37,7 @@ public class UserService implements IUserService {
     return userMapper.userToDto(user);
   }
 
+  @Override
   @Transactional(rollbackOn = {Exception.class})
   public UserDto createUser(UserDto newUser) {
     if (emailExist(newUser.getEmail())) {
