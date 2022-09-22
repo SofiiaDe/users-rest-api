@@ -3,10 +3,9 @@ package com.testtask.usersrestapi.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import com.testtask.usersrestapi.exception.UserNotFoundException;
-import com.testtask.usersrestapi.model.User;
+import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
-import com.testtask.usersrestapi.repository.UserRepository;
+import com.testtask.usersrestapi.service.IUserService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -25,41 +24,37 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class UserController {
 
-  private final UserRepository repository;
+  private final IUserService userService;
 
   private final UserModelAssembler assembler;
-  
-  @GetMapping("/users")
-  public CollectionModel<EntityModel<User>> all() {
 
-    List<EntityModel<User>> users = repository.findAllUsers().stream() //
-        .map(assembler::toModel) //
+  @GetMapping("/users")
+  public CollectionModel<EntityModel<UserDto>> getAll() {
+
+    List<EntityModel<UserDto>> users = userService.getAllUsers().stream()
+        .map(assembler::toModel)
         .toList();
 
-    return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
+    return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
   }
 
   @PostMapping("/users")
-  ResponseEntity<?> createUser(@RequestBody User newUser) {
+  ResponseEntity<?> createUser(@RequestBody UserDto newUser) {
 
-    EntityModel<User> entityModel = assembler.toModel(repository.save(newUser));
+    EntityModel<UserDto> entityModel = assembler.toModel(userService.createUser(newUser));
 
-    return ResponseEntity //
+    return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
         .body(entityModel);
   }
 
   @GetMapping("/users/{id}")
-  public EntityModel<User> getUserById(@PathVariable Long id) {
+  public EntityModel<UserDto> getUserById(@PathVariable Long id) {
 
-    User user = repository.findById(id) //
-        .orElseThrow(() -> new UserNotFoundException(id));
+    UserDto userDto = userService.getUserById(id);
 
-    return assembler.toModel(user);
+    return assembler.toModel(userDto);
   }
-
-
-
 
 
 }

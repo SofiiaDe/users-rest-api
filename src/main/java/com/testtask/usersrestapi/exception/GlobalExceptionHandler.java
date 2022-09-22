@@ -10,8 +10,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<String> handleSendPulseApiException(UserNotFoundException ex) {
+  public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+  }
+
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  public ResponseEntity<String> handlerDogProcessingException(UserAlreadyExistsException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
   }
 
 }

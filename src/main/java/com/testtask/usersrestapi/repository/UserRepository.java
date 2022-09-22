@@ -19,7 +19,7 @@ public class UserRepository {
         "1996-09-17", "Warsaw", "044-444-44-44"));
   }
 
-  public List<User> findAllUsers() {
+  public List<User> findAll() {
     createUsers();
     return list;
   }
@@ -46,6 +46,12 @@ public class UserRepository {
     list.add(user);
     return user;
   }
+
+  public Optional<User> findUserByEmail(String email) {
+    List<User> allUsers = findAll();
+    return allUsers.stream().filter(user -> Objects.equals(user.getEmail(), email)).findFirst();
+  }
+
 
 
 }
