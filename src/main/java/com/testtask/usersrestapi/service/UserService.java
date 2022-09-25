@@ -5,7 +5,7 @@ import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.UserRepository;
-import com.testtask.usersrestapi.utils.IUserMapper;
+import com.testtask.usersrestapi.utils.UserMapper;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements IUserService {
 
   private final UserRepository userRepository;
-  private final IUserMapper userMapper;
+  private final UserMapper userMapper;
 
   private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
   private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";

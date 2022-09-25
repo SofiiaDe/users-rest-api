@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
 @Component
-public interface IUserMapper {
+public interface UserMapper {
 
   @Mappings({
       @Mapping(source = "id", target = "id"),
