@@ -2,7 +2,6 @@ package com.testtask.usersrestapi.service;
 
 import com.testtask.usersrestapi.model.UserDto;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface IUserService {
@@ -14,4 +13,6 @@ public interface IUserService {
   UserDto createUser(UserDto newUser);
 
   UserDto updateUser(UserDto userDto, Long id);
+
+  void deleteUserById(Long id);
 }

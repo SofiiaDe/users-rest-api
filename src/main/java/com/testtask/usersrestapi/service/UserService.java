@@ -2,6 +2,7 @@ package com.testtask.usersrestapi.service;
 
 import com.testtask.usersrestapi.exception.UserAlreadyExistsException;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
+import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.UserRepository;
@@ -22,6 +23,7 @@ public class UserService implements IUserService {
 
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
     private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
+    private static final String CAN_NOT_DELETE_USER = "Can't delete user with id = ";
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -57,7 +59,7 @@ public class UserService implements IUserService {
                     user.setEmail(newUserDto.getEmail());
                     user.setFirstName(newUserDto.getFirstName());
                     user.setLastName(newUserDto.getLastName());
-                    user.setBirthDate(newUserDto.getFirstName());
+                    user.setBirthDate(newUserDto.getBirthDate());
                     user.setAddress(newUserDto.getAddress());
                     user.setPhoneNumber(newUserDto.getPhoneNumber());
                     return userRepository.save(user);
@@ -67,6 +69,15 @@ public class UserService implements IUserService {
                     return userRepository.save(userMapper.dtoToUser(newUserDto));
                 });
         return userMapper.userToDto(updatedUser);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception exception) {
+            throw new UserProcessingException(CAN_NOT_DELETE_USER + id);
+        }
     }
 
     private boolean emailExist(String email) {

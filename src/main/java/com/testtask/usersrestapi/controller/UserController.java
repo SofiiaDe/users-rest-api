@@ -3,7 +3,6 @@ package com.testtask.usersrestapi.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
@@ -67,5 +66,12 @@ public class UserController {
                 .body(entityModel);
     }
 
+    @DeleteMapping("/users/{id}")
+    ResponseEntity<?> deleteUser(@PathVariable Long id) {
+
+        userService.deleteUserById(id);
+
+        return ResponseEntity.noContent().build();
+    }
 
 }

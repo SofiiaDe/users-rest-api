@@ -1,7 +1,9 @@
 package com.testtask.usersrestapi.repository;
 
+import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.model.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,15 +16,17 @@ public class UserRepository implements IUserRepository {
 
     private final List<User> list;
 
+    private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
+
     /**
      * Imitates database
      */
     public UserRepository() {
         list = new ArrayList<>();
         list.add(new User(1L, "smith@email.com", "Ron", "Smith",
-                "1991-12-05", "Kyiv", "095-999-99-99"));
+                LocalDate.of(1991, 12, 5), "Kyiv", "095-999-99-99"));
         list.add(new User(2L, "brown@email.com", "Kate", "Brown",
-                "1996-09-17", "Warsaw", "044-444-44-44"));
+                LocalDate.of(1996, 9, 17), "Warsaw", "044-444-44-44"));
     }
 
     @Override
@@ -63,5 +67,10 @@ public class UserRepository implements IUserRepository {
         return allUsers.stream().filter(user -> Objects.equals(user.getEmail(), email)).findFirst();
     }
 
+    public void deleteById(Long id) throws UserNotFoundException {
+      list.remove(this.findById(id).orElseThrow(() -> {
+            throw new UserNotFoundException(USER_NOT_FOUND + id);
+        }));
+    }
 
 }

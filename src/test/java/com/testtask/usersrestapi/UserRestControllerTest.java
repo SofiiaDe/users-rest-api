@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.testtask.usersrestapi.controller.UserController;
+import com.testtask.usersrestapi.exception.UserNotFoundException;
+import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
@@ -20,10 +22,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +34,7 @@ class UserRestControllerTest {
 
     private static final String USER_ENDPOINT = "/usersApi/users";
     private static final String UPDATE_USER_ENDPOINT = "/usersApi/users" + "/{id}";
-    private static final long DEFAULT_USER_ID = 123L;
+    private static final Long DEFAULT_USER_ID = 123L;
     private static final Long NOT_EXIST_ID = -1L;
     private MockMvc mockMvc;
     @Mock
@@ -103,5 +104,25 @@ class UserRestControllerTest {
                 .andExpect(jsonPath("$.phoneNumber", is("099-999-99-99")));
     }
 
+    @Test
+    void deleteUserTest_WhenFound() throws Exception {
+        doNothing().when(userService).deleteUserById(DEFAULT_USER_ID);
 
+        mockMvc
+                .perform(delete(USER_ENDPOINT + "/{id}", DEFAULT_USER_ID))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(userService).deleteUserById(DEFAULT_USER_ID);
+        verifyNoMoreInteractions(userService);
+    }
+
+    @Test
+    void deleteUser_WhenNotFound() throws Exception {
+        doThrow(new UserProcessingException("some message")).when(userService).deleteUserById(NOT_EXIST_ID);
+
+        mockMvc
+                .perform(delete(USER_ENDPOINT + "/{id}", NOT_EXIST_ID))
+                .andExpect(status().isNotAcceptable());
+        verify(userService).deleteUserById(NOT_EXIST_ID);
+    }
 }

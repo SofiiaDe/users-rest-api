@@ -19,4 +19,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
   }
 
+  @ExceptionHandler(UserProcessingException.class)
+  public ResponseEntity<String> handlerUserProcessingException(UserProcessingException ex){
+    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+  }
+
 }
