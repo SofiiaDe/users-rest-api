@@ -2,6 +2,7 @@ package com.testtask.usersrestapi;
 
 import com.testtask.usersrestapi.model.UserDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class UnitTestExpectedDtoSupplier {
@@ -12,7 +13,7 @@ public class UnitTestExpectedDtoSupplier {
                 .setEmail("aaa@bbb.ccc")
                 .setFirstName("UserFirstName")
                 .setLastName("UserLastName")
-                .setBirthDate("1991-07-25")
+                .setBirthDate(LocalDate.of(1991, 7, 25))
                 .setAddress("Kyiv")
                 .setPhoneNumber("099-999-99-99");
     }
@@ -21,9 +22,9 @@ public class UnitTestExpectedDtoSupplier {
 
         return List.of(
                 new UserDto(1L, "smith@email.com", "Ron", "Smith",
-                        "1991-12-05", "Kyiv", "095-999-99-99"),
+                        LocalDate.of(1991, 12, 5), "Kyiv", "095-999-99-99"),
 
                 new UserDto(2L, "brown@email.com", "Kate", "Brown",
-                        "1996-09-17", "Warsaw", "044-444-44-44"));
+                        LocalDate.of(1996, 9, 17), "Warsaw", "044-444-44-44"));
     }
 }
