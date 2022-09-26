@@ -1,6 +1,10 @@
 package com.testtask.usersrestapi;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.testtask.usersrestapi.controller.UserController;
+import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +23,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,7 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserRestControllerTest {
 
     private static final String USER_ENDPOINT = "/usersApi/users";
+    private static final String UPDATE_USER_ENDPOINT = "/usersApi/users" + "/{id}";
     private static final long DEFAULT_USER_ID = 123L;
+    private static final Long NOT_EXIST_ID = -1L;
     private MockMvc mockMvc;
     @Mock
     private IUserService userService;
@@ -35,10 +42,16 @@ class UserRestControllerTest {
     private UserController userController;
     @Spy
     private UserModelAssembler userModelAssembler;
+    private UserDto userDto;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        userDto = UnitTestExpectedDtoSupplier.createUser();
+        objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @Test
@@ -64,6 +77,30 @@ class UserRestControllerTest {
                 .andExpect(status().isOk());
 
         verify(userService).getAllUsers();
+    }
+
+    @Test
+    void updateUserTest_ShouldUpdateSpecificUserData() throws Exception {
+        UserDto requestUserDto = userDto
+                .setEmail("newEmailForUpdate@email.com")
+                .setAddress("Odesa");
+
+        UserDto responseUserDto = userDto;
+
+        when(userService.updateUser(requestUserDto, requestUserDto.getId())).thenReturn(responseUserDto);
+
+        mockMvc.perform(
+                        put(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(requestUserDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.email", is("newEmailForUpdate@email.com")))
+                .andExpect(jsonPath("$.address", is("Odesa")))
+                .andExpect(jsonPath("$.id", is(123)))
+                .andExpect(jsonPath("$.firstName", is("UserFirstName")))
+                .andExpect(jsonPath("$.lastName", is("UserLastName")))
+                .andExpect(jsonPath("$.birthDate", is("1991-07-25")))
+                .andExpect(jsonPath("$.phoneNumber", is("099-999-99-99")));
     }
 
 

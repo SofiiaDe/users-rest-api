@@ -6,8 +6,10 @@ import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.utils.UserMapper;
+
 import java.util.List;
 import javax.transaction.Transactional;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,40 +17,60 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService implements IUserService {
 
-  private final UserRepository userRepository;
-  private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-  private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
-  private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
+    private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
+    private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
 
-  @Override
-  public List<UserDto> getAllUsers() {
-    return userRepository.findAll().stream()
-        .map(userMapper::userToDto)
-        .toList();
-  }
-
-  @Override
-  @Transactional
-  public UserDto getUserById(Long id) {
-    User user = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + id));
-
-    return userMapper.userToDto(user);
-  }
-
-  @Override
-  @Transactional(rollbackOn = {Exception.class})
-  public UserDto createUser(UserDto newUser) {
-    if (emailExist(newUser.getEmail())) {
-      throw new UserAlreadyExistsException(USER_ALREADY_EXISTS + newUser.getEmail());
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::userToDto)
+                .toList();
     }
 
-    return userMapper.userToDto(userRepository.save(userMapper.dtoToUser(newUser)));
-  }
+    @Override
+    @Transactional
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + id));
 
-  private boolean emailExist(String email) {
-    return userRepository.findUserByEmail(email).isPresent();
-  }
+        return userMapper.userToDto(user);
+    }
+
+    @Override
+    @Transactional(rollbackOn = {Exception.class})
+    public UserDto createUser(UserDto newUser) {
+        if (emailExist(newUser.getEmail())) {
+            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS + newUser.getEmail());
+        }
+
+        return userMapper.userToDto(userRepository.save(userMapper.dtoToUser(newUser)));
+    }
+
+    @Override
+    @Transactional
+    public UserDto updateUser(UserDto newUserDto, Long id) {
+        User updatedUser = userRepository.findById(id)
+                .map(user -> {
+                    user.setEmail(newUserDto.getEmail());
+                    user.setFirstName(newUserDto.getFirstName());
+                    user.setLastName(newUserDto.getLastName());
+                    user.setBirthDate(newUserDto.getFirstName());
+                    user.setAddress(newUserDto.getAddress());
+                    user.setPhoneNumber(newUserDto.getPhoneNumber());
+                    return userRepository.save(user);
+                })
+                .orElseGet(() -> {
+                    newUserDto.setId(id);
+                    return userRepository.save(userMapper.dtoToUser(newUserDto));
+                });
+        return userMapper.userToDto(updatedUser);
+    }
+
+    private boolean emailExist(String email) {
+        return userRepository.findUserByEmail(email).isPresent();
+    }
 
 }
