@@ -15,7 +15,7 @@ public class UnitTestExpectedDtoSupplier {
                 .setLastName("UserLastName")
                 .setBirthDate(LocalDate.of(1991, 7, 25))
                 .setAddress("Kyiv")
-                .setPhoneNumber("099-999-99-99");
+                .setPhoneNumber("(099)999-99-99");
     }
 
     public static List<UserDto> createUsersList() {
@@ -27,4 +27,5 @@ public class UnitTestExpectedDtoSupplier {
                 new UserDto(2L, "brown@email.com", "Kate", "Brown",
                         LocalDate.of(1996, 9, 17), "Warsaw", "044-444-44-44"));
     }
+
 }

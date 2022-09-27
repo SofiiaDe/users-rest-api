@@ -1,16 +1,13 @@
 package com.testtask.usersrestapi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.testtask.usersrestapi.utils.validation.constraints.BirthDateValidation;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -19,27 +16,30 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 public class UserDto {
 
-  @NotBlank
-  private Long id;
+    @NotNull
+    private Long id;
 
-  @NotBlank
-  @Email
-  private String email;
+    @NotBlank(message = "The email address is required.")
+    @Email(message = "The email address is invalid.", flags = {Pattern.Flag.CASE_INSENSITIVE})
+    private String email;
 
-  @NotBlank
-  @Size(min = 2)
-  private String firstName;
+    @NotBlank(message = "The first name is required.")
+    @Size(min = 2, max = 50, message = "The length of first name must be between 2 and 50 characters.")
+    private String firstName;
 
-  @NotBlank
-  @Size(min = 2)
-  private String lastName;
+    @NotBlank(message = "The last name is required.")
+    @Size(min = 2, max = 50, message = "The length of first name must be between 2 and 50 characters.")
+    private String lastName;
 
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDate birthDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "The date of birth is required.")
+    @BirthDateValidation(message = "User should be more than than 18 years old")
+    @Past(message = "The date of birth must be in the past.")
+    private LocalDate birthDate;
 
-  private String address;
+    private String address;
 
-  @Pattern(regexp = "^(\\+38)(\\(0\\d{2}\\))(\\d){3}(\\-\\d{2}){2}$")
-  private String phoneNumber;
+    @Pattern(regexp = "^(\\(0\\d{2}\\))(\\d){3}(\\-\\d{2}){2}$")
+    private String phoneNumber;
 
 }
