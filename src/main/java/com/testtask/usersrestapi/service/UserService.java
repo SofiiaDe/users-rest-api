@@ -5,6 +5,7 @@ import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.repository.IUserRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.utils.UserMapper;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService implements IUserService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final UserMapper userMapper;
 
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
@@ -79,9 +80,8 @@ public class UserService implements IUserService {
             field.setAccessible(true);
             ReflectionUtils.setField(field, user1, value);
         }));
-        User userAfterUpdate = user.get();
 
-        User updatedUser = userRepository.save(userAfterUpdate);
+        User updatedUser = userRepository.save(user.get());
 
         return userMapper.userToDto(updatedUser);
     }

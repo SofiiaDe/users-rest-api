@@ -5,6 +5,7 @@ import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.repository.IUserRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
@@ -13,6 +14,7 @@ import com.testtask.usersrestapi.utils.UserMapperImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,7 +35,7 @@ class UserServiceTest {
     private static final Long NOT_EXIST_ID = -1L;
     private static final Long DEFAULT_USER_ID = 123L;
     @Mock
-    private UserRepository userRepositoryMock;
+    private IUserRepository userRepositoryMock;
     private UserMapper userMapper;
     private IUserService userService;
     private UserDto userDto;
@@ -142,16 +144,16 @@ class UserServiceTest {
         updates.put("address", "5th avenue");
 
         when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(expectedUser));
+        when(userRepositoryMock.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
         UserDto actualDto = userService.patchUpdateUser(updates, expectedUser.getId());
 
         verify(userRepositoryMock).findById(expectedUser.getId());
         verify(userRepositoryMock).save(any(User.class));
 
-        assertEquals(expectedUser.getEmail(), actualDto.getEmail());
-        assertEquals(expectedUser.getAddress(), actualDto.getAddress());
+        assertEquals(updates.get("email"), actualDto.getEmail());
+        assertEquals(updates.get("address"), actualDto.getAddress());
     }
-
 
     @Test
     void deleteUserTest_WhenUserCanBeDeleted_RepoCalled() {

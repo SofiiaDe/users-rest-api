@@ -15,4 +15,6 @@ public interface IUserRepository {
 
   Optional<User> findUserByEmail(String email);
 
+  void deleteById(Long id);
+
 }

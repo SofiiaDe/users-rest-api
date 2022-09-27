@@ -66,7 +66,7 @@ public class UserRepository implements IUserRepository {
         return allUsers.stream().filter(user -> Objects.equals(user.getEmail(), email)).findFirst();
     }
 
-    public void deleteById(Long id) throws UserNotFoundException {
+    public void deleteById(Long id) {
       list.remove(this.findById(id).orElseThrow(() -> {
             throw new UserNotFoundException(USER_NOT_FOUND + id);
         }));
