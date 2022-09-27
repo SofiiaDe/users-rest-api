@@ -1,13 +1,5 @@
 package com.testtask.usersrestapi;
 
-import static com.testtask.usersrestapi.UnitTestExpectedEntitySupplier.createUserEntity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import com.testtask.usersrestapi.exception.UserAlreadyExistsException;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
@@ -18,16 +10,19 @@ import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
 import com.testtask.usersrestapi.utils.UserMapper;
 import com.testtask.usersrestapi.utils.UserMapperImpl;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {

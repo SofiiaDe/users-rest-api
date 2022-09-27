@@ -2,14 +2,13 @@ package com.testtask.usersrestapi.repository;
 
 import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRepository implements IUserRepository {

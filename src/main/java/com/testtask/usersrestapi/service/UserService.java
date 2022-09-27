@@ -7,16 +7,15 @@ import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.utils.UserMapper;
-import java.lang.reflect.Field;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import javax.transaction.Transactional;
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+
+import javax.transaction.Transactional;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
