@@ -8,11 +8,13 @@ import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,15 +57,26 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    ResponseEntity<?> updateUser(@RequestBody UserDto newUser, @PathVariable Long id) {
+    ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
-        UserDto updatedUser = userService.updateUser(newUser, id);
+        UserDto updatedUser = userService.updateUser(newUser);
 
         EntityModel<UserDto> entityModel = assembler.toModel(updatedUser);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
+    }
+
+    @PatchMapping(value = "/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> partialUpdateUser(@RequestBody Map<String, Object> updates, @PathVariable("id") Long id) {
+
+        UserDto partiallyUpdatedUser = userService.patchUpdateUser(updates, id);
+
+        EntityModel<UserDto> entityModel = assembler.toModel(partiallyUpdatedUser);
+
+        return ResponseEntity
+                .ok(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri());
     }
 
     @DeleteMapping("/users/{id}")

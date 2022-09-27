@@ -1,5 +1,6 @@
 package com.testtask.usersrestapi;
 
+import static com.testtask.usersrestapi.UnitTestExpectedEntitySupplier.createUserEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,8 @@ import com.testtask.usersrestapi.service.UserService;
 import com.testtask.usersrestapi.utils.UserMapper;
 import com.testtask.usersrestapi.utils.UserMapperImpl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,12 +42,14 @@ class UserServiceTest {
     private UserMapper userMapper;
     private IUserService userService;
     private UserDto userDto;
+    private User expectedUser;
 
     @BeforeEach
     public void setUp() {
         userMapper = new UserMapperImpl();
         userService = new UserService(userRepositoryMock, userMapper);
         userDto = UnitTestExpectedDtoSupplier.createUser();
+        expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
     }
 
     @Test
@@ -133,6 +138,25 @@ class UserServiceTest {
         assertEquals(userDto.getAddress(), result.getAddress());
         assertEquals(userDto.getPhoneNumber(), result.getPhoneNumber());
     }
+
+    @Test
+    void patchUpdateUserTest_ShouldUpdateSpecifiedFields() {
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("email", "newEmail@email.com");
+        updates.put("address", "5th avenue");
+
+        when(userRepositoryMock.findById(anyLong())).thenReturn(Optional.of(expectedUser));
+
+        UserDto actualDto = userService.patchUpdateUser(updates, expectedUser.getId());
+
+        verify(userRepositoryMock).findById(expectedUser.getId());
+        verify(userRepositoryMock).save(any(User.class));
+
+        assertEquals(expectedUser.getEmail(), actualDto.getEmail());
+        assertEquals(expectedUser.getAddress(), actualDto.getAddress());
+    }
+
 
     @Test
     void deleteUserTest_WhenUserCanBeDeleted_RepoCalled() {

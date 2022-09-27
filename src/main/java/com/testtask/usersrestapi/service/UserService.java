@@ -7,12 +7,16 @@ import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.utils.UserMapper;
+import java.lang.reflect.Field;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.transaction.Transactional;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
 @Service
 @AllArgsConstructor
@@ -53,22 +57,9 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public UserDto updateUser(UserDto newUserDto, Long id) {
-        User updatedUser = userRepository.findById(id)
-                .map(user -> {
-                    user.setEmail(newUserDto.getEmail());
-                    user.setFirstName(newUserDto.getFirstName());
-                    user.setLastName(newUserDto.getLastName());
-                    user.setBirthDate(newUserDto.getBirthDate());
-                    user.setAddress(newUserDto.getAddress());
-                    user.setPhoneNumber(newUserDto.getPhoneNumber());
-                    return userRepository.save(user);
-                })
-                .orElseGet(() -> {
-                    newUserDto.setId(id);
-                    return userRepository.save(userMapper.dtoToUser(newUserDto));
-                });
-        return userMapper.userToDto(updatedUser);
+    public UserDto updateUser(UserDto updatedUserDto) {
+
+        return userMapper.userToDto(userRepository.save(userMapper.dtoToUser(updatedUserDto)));
     }
 
     @Override
@@ -78,6 +69,22 @@ public class UserService implements IUserService {
         } catch (Exception exception) {
             throw new UserProcessingException(CAN_NOT_DELETE_USER + id);
         }
+    }
+
+    @Override
+    public UserDto patchUpdateUser(Map<String, Object> updates, Long id) {
+
+        Optional<User> user = userRepository.findById(id);
+        user.ifPresent(user1 -> updates.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(User.class, key);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, user1, value);
+        }));
+        User userAfterUpdate = user.get();
+
+        User updatedUser = userRepository.save(userAfterUpdate);
+
+        return userMapper.userToDto(updatedUser);
     }
 
     private boolean emailExist(String email) {

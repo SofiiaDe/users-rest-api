@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.testtask.usersrestapi.controller.UserController;
-import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
@@ -19,6 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -81,14 +84,19 @@ class UserRestControllerTest {
     }
 
     @Test
-    void updateUserTest_ShouldUpdateSpecificUserData() throws Exception {
+    void updateUserTest_ShouldUpdateAllUserData() throws Exception {
         UserDto requestUserDto = userDto
+                .setId(12L)
                 .setEmail("newEmailForUpdate@email.com")
-                .setAddress("Odesa");
+                .setFirstName("newFirstName")
+                .setLastName("newLastName")
+                .setBirthDate(LocalDate.of(1992, 7, 25))
+                .setAddress("Odesa")
+                .setPhoneNumber("099-000-99-99");
 
         UserDto responseUserDto = userDto;
 
-        when(userService.updateUser(requestUserDto, requestUserDto.getId())).thenReturn(responseUserDto);
+        when(userService.updateUser(requestUserDto)).thenReturn(responseUserDto);
 
         mockMvc.perform(
                         put(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
@@ -97,11 +105,28 @@ class UserRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email", is("newEmailForUpdate@email.com")))
                 .andExpect(jsonPath("$.address", is("Odesa")))
-                .andExpect(jsonPath("$.id", is(123)))
-                .andExpect(jsonPath("$.firstName", is("UserFirstName")))
-                .andExpect(jsonPath("$.lastName", is("UserLastName")))
-                .andExpect(jsonPath("$.birthDate", is("1991-07-25")))
-                .andExpect(jsonPath("$.phoneNumber", is("099-999-99-99")));
+                .andExpect(jsonPath("$.id", is(12)))
+                .andExpect(jsonPath("$.firstName", is("newFirstName")))
+                .andExpect(jsonPath("$.lastName", is("newLastName")))
+                .andExpect(jsonPath("$.birthDate", is("1992-07-25")))
+                .andExpect(jsonPath("$.phoneNumber", is("099-000-99-99")));
+    }
+
+    @Test
+    void partialUpdateUserTest_ShouldUpdateSpecificUserData() throws Exception {
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("email", "newEmail@email.com");
+        updates.put("address", "5th avenue");
+
+        when(userService.patchUpdateUser(updates, userDto.getId())).thenReturn(userDto);
+
+        mockMvc.perform(
+                        patch(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(updates)))
+                .andExpect(status().isOk())
+        ;
     }
 
     @Test
