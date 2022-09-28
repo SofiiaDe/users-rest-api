@@ -30,16 +30,15 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ExtendWith(MockitoExtension.class)
 class UserRestControllerTest {
 
-    private static final String USER_ENDPOINT = "/usersApi/users";
-    private static final String UPDATE_USER_ENDPOINT = "/usersApi/users" + "/{id}";
-    private static final String SEARCH_USER_ENDPOINT = "/usersApi/users" + "/search";
+    private static final String USER_ENDPOINT = "/users";
+    private static final String USER_ENDPOINT_ID = USER_ENDPOINT + "/{id}";
+    private static final String SEARCH_USER_ENDPOINT = USER_ENDPOINT + "/search";
     private static final Long DEFAULT_USER_ID = 123L;
     private static final Long NOT_EXIST_ID = -1L;
     private static final LocalDate fromDate = LocalDate.of(1990, 1, 1);
@@ -108,7 +107,7 @@ class UserRestControllerTest {
         when(userService.updateUser(requestUserDto)).thenReturn(responseUserDto);
 
         mockMvc.perform(
-                        put(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
+                        put(USER_ENDPOINT_ID, DEFAULT_USER_ID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(requestUserDto)))
                 .andExpect(status().isCreated())
@@ -131,7 +130,7 @@ class UserRestControllerTest {
         when(userService.patchUpdateUser(updates, userDto.getId())).thenReturn(userDto);
 
         mockMvc.perform(
-                        patch(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
+                        patch(USER_ENDPOINT_ID, DEFAULT_USER_ID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(updates)))
                 .andExpect(status().isOk());
@@ -171,4 +170,6 @@ class UserRestControllerTest {
         verifyNoMoreInteractions(userService);
 
     }
+
+
 }

@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
-@RequestMapping("/usersApi")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -30,7 +30,7 @@ public class UserController {
 
     private final UserModelAssembler assembler;
 
-    @GetMapping("/users")
+    @GetMapping
     public CollectionModel<EntityModel<UserDto>> getAll() {
 
         List<EntityModel<UserDto>> users = userService.getAllUsers().stream()
@@ -40,7 +40,7 @@ public class UserController {
         return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
     }
 
-    @PostMapping("/users")
+    @PostMapping
     ResponseEntity<?> createUser(@RequestBody UserDto newUser) {
 
         EntityModel<UserDto> entityModel = assembler.toModel(userService.createUser(newUser));
@@ -50,7 +50,7 @@ public class UserController {
                 .body(entityModel);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public EntityModel<UserDto> getUserById(@PathVariable Long id) {
 
         UserDto userDto = userService.getUserById(id);
@@ -58,7 +58,7 @@ public class UserController {
         return assembler.toModel(userDto);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
         UserDto updatedUser = userService.updateUser(newUser);
@@ -70,7 +70,7 @@ public class UserController {
                 .body(entityModel);
     }
 
-    @PatchMapping(value = "/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> partialUpdateUser(@RequestBody Map<String, Object> updates, @PathVariable("id") Long id) {
 
         UserDto partiallyUpdatedUser = userService.patchUpdateUser(updates, id);
@@ -81,7 +81,7 @@ public class UserController {
                 .ok(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri());
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         userService.deleteUserById(id);
@@ -89,7 +89,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/users/search")
+    @GetMapping("/search")
     public CollectionModel<EntityModel<UserDto>> searchUsersByBirthDateRange(
             @Valid DateRangeParameters parameters) {
 
