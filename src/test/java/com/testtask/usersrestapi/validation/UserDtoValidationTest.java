@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -88,7 +90,7 @@ public class UserDtoValidationTest {
         userDto.setBirthDate(LESS_THAN_MIN_AGE);
 
         Set<ConstraintViolation<UserDto>> constraintViolations = validator.validate(userDto);
-        assertEquals(2, constraintViolations.size());
+        assertEquals(1, constraintViolations.size());
     }
 
     @Test
@@ -128,4 +130,57 @@ public class UserDtoValidationTest {
         Set<ConstraintViolation<UserDto>> constraintViolations = validator.validate(userDto);
         assertEquals(0, constraintViolations.size());
     }
+
+    @ParameterizedTest(name = "{index} \"{0}\" is not a valid email")
+    @ValueSource(strings = {
+            "",
+            " fast.mary@hot.com",
+            "ann.flex@gmail@com",
+            "alice.example.com",
+            "ron.gimmy@@com",
+            "william...shakespeare@ukr.net",
+            "bob @ukr.net",
+            ".shakespeare123@hotmail.com",
+            "hello",
+            "tanya.@example.com",
+            "...@test.com",
+            "@com.a",
+            "roma@example..com",
+            "jade@.com",
+            "garry@.com.",
+            "polina@-gmail.com",
+
+    })
+    void testIsEmailValid_InvalidCases(String input) {
+        userDto.setEmail(input);
+
+        Set<ConstraintViolation<UserDto>> constraintViolations = validator.validate(userDto);
+        assertEquals(1, constraintViolations.size());
+    }
+
+    @ParameterizedTest(name = "{index} \"{0}\" is a valid email")
+    @ValueSource(strings = {
+            "tony@example.co.uk",
+            "william_shakespeare1@epam.com",
+            "william@gmail.com",
+            "william.adam3@yahoo.com",
+            "_karamel@hotmail.com",
+            "william-shakespeare@gmail1.com",
+            "hello.ann-2022@test.com",
+            "boyko_denys@example.com",
+            "h@hotmail.com",
+            "h@example-example.com",
+            "h@test-test-test.com",
+            "h@test.tset-test.com",
+            "hello.mary-2022@example.com",
+
+    })
+    void testIsEmailValid_ValidCases(String input) {
+        userDto.setEmail(input);
+
+        Set<ConstraintViolation<UserDto>> constraintViolations = validator.validate(userDto);
+        assertEquals(0, constraintViolations.size());
+    }
+
 }
+

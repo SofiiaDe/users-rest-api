@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.testtask.usersrestapi.controller.UserController;
 import com.testtask.usersrestapi.exception.UserProcessingException;
+import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +35,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -55,8 +61,10 @@ class UserRestControllerTest {
     private List<UserDto> userDtoList;
     private DateRangeParameters dateRangeParams;
 
+    private String jsonUser;
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         userDto = UnitTestExpectedDtoSupplier.createUserDto();
         objectMapper = new ObjectMapper();
@@ -64,6 +72,8 @@ class UserRestControllerTest {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         userDtoList = createUserDtoList();
         dateRangeParams = new DateRangeParameters(fromDate, toDate);
+        jsonUser = readJsonWithFile();
+
     }
 
     @Test
@@ -89,6 +99,18 @@ class UserRestControllerTest {
                 .andExpect(status().isOk());
 
         verify(userService).getAllUsers();
+    }
+
+    @Test
+    void createUserTest_shouldInvokeServiceMethodCreateUser() throws Exception {
+        when(userService.createUser(any())).thenReturn(userDto);
+
+        mockMvc.perform(
+                        post(USER_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUser))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
     }
 
     @Test
@@ -171,5 +193,10 @@ class UserRestControllerTest {
 
     }
 
+    private String readJsonWithFile() throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("UserJSON.json");
+        assert inputStream != null;
+        return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+    }
 
 }
