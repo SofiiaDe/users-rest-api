@@ -1,10 +1,16 @@
 package com.testtask.usersrestapi.exception;
 
+import com.testtask.usersrestapi.utils.validation.ValidationError;
+import com.testtask.usersrestapi.utils.validation.ValidationErrorBuilder;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
@@ -31,14 +37,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex) {
-        List<String> errors = new ArrayList<>();
+    public ResponseEntity<String> invalidArticleCreationLanguageContent(
+            ConstraintViolationException exception) {
+        ValidationError error = ValidationErrorBuilder
+                .fromBindingErrors(exception.getConstraintViolations());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.toString());
+    }
 
-        ex.getConstraintViolations().forEach(cv -> errors.add(cv.getMessage()));
-
-        Map<String, List<String>> result = new HashMap<>();
-        result.put("errors", errors);
-
-        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    @Override
+    @NonNull
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  @NonNull HttpHeaders headers, @NonNull HttpStatus status,
+                                                                  @NonNull WebRequest request) {
+        ValidationError error = ValidationErrorBuilder.fromBindingResult(ex.getBindingResult());
+        return handleExceptionInternal(ex, error, headers, HttpStatus.NOT_ACCEPTABLE, request);
     }
 }
