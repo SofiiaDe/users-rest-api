@@ -1,4 +1,4 @@
-package com.testtask.usersrestapi;
+package com.testtask.usersrestapi.validation;
 
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.utils.validation.validators.UserDtoValidator;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.testtask.usersrestapi.UnitTestExpectedDtoSupplier.createUser;
+import static com.testtask.usersrestapi.UnitTestExpectedDtoSupplier.createUserDto;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -28,7 +28,7 @@ class UserDtoValidatorTest {
 
     @Test
     void isValidTest_ShouldReturnTrue_WhenPassValidUserDto() {
-        UserDto userDto = createUser();
+        UserDto userDto = createUserDto();
         boolean actual = userDtoValidator.isValid(new Object[]{userDto}, constraintValidatorContext);
 
         assertTrue(actual);

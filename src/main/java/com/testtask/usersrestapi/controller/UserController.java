@@ -3,6 +3,8 @@ package com.testtask.usersrestapi.controller;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
+import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,7 +20,7 @@ import java.util.Map;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-
+@Validated
 @RestController
 @RequestMapping("/usersApi")
 @AllArgsConstructor
@@ -39,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    ResponseEntity<?> createUser(@Validated @RequestBody UserDto newUser) {
+    ResponseEntity<?> createUser(@RequestBody UserDto newUser) {
 
         EntityModel<UserDto> entityModel = assembler.toModel(userService.createUser(newUser));
 
@@ -57,7 +59,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    ResponseEntity<?> updateUser(@Validated @RequestBody UserDto newUser) {
+    ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
         UserDto updatedUser = userService.updateUser(newUser);
 
@@ -85,6 +87,17 @@ public class UserController {
         userService.deleteUserById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/users/search")
+    public CollectionModel<EntityModel<UserDto>> searchUsersByBirthDateRange(
+            @Valid DateRangeParameters parameters) {
+
+        List<EntityModel<UserDto>> users = userService.searchUsersByBirthDate(parameters.from(), parameters.to()).stream()
+                .map(assembler::toModel)
+                .toList();
+
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
     }
 
 }

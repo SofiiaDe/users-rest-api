@@ -6,7 +6,6 @@ import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.IUserRepository;
-import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.utils.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.util.ReflectionUtils;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +24,6 @@ public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
     private final UserMapper userMapper;
-
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
     private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
     private static final String CAN_NOT_DELETE_USER = "Can't delete user with id = ";
@@ -84,6 +83,14 @@ public class UserService implements IUserService {
         User updatedUser = userRepository.save(user.get());
 
         return userMapper.userToDto(updatedUser);
+    }
+
+    @Override
+    public List<UserDto> searchUsersByBirthDate(LocalDate fromDate, LocalDate toDate) {
+        List<User> searchedUsers = userRepository.findByBirthDate(fromDate, toDate);
+        return searchedUsers.stream()
+                .map(userMapper::userToDto)
+                .toList();
     }
 
     private boolean emailExist(String email) {

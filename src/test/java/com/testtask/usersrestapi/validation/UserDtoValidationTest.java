@@ -1,5 +1,6 @@
-package com.testtask.usersrestapi;
+package com.testtask.usersrestapi.validation;
 
+import com.testtask.usersrestapi.UnitTestExpectedDtoSupplier;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.utils.validation.validators.BirthDateValidator;
 import jakarta.validation.ConstraintViolation;
@@ -41,7 +42,7 @@ public class UserDtoValidationTest {
 
     @BeforeEach
     public void setUp() {
-        userDto = UnitTestExpectedDtoSupplier.createUser();
+        userDto = UnitTestExpectedDtoSupplier.createUserDto();
     }
 
     @Test

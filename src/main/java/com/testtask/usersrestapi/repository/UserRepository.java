@@ -66,10 +66,21 @@ public class UserRepository implements IUserRepository {
         return allUsers.stream().filter(user -> Objects.equals(user.getEmail(), email)).findFirst();
     }
 
+    @Override
     public void deleteById(Long id) {
-      list.remove(this.findById(id).orElseThrow(() -> {
+        list.remove(this.findById(id).orElseThrow(() -> {
             throw new UserNotFoundException(USER_NOT_FOUND + id);
         }));
     }
+
+    @Override
+    public List<User> findByBirthDate(LocalDate fromDate, LocalDate toDate) {
+
+        return this.findAll().stream().filter(
+                        user -> (user.getBirthDate().isAfter(fromDate) && user.getBirthDate().isBefore(toDate))
+                                || user.getBirthDate().equals(fromDate) || user.getBirthDate().equals(toDate))
+                .toList();
+    }
+
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UnitTestExpectedDtoSupplier {
 
-    public static UserDto createUser() {
+    public static UserDto createUserDto() {
         return new UserDto()
                 .setId(123L)
                 .setEmail("aaa@bbb.ccc")
@@ -18,7 +18,7 @@ public class UnitTestExpectedDtoSupplier {
                 .setPhoneNumber("(099)999-99-99");
     }
 
-    public static List<UserDto> createUsersList() {
+    public static List<UserDto> createUserDtoList() {
 
         return List.of(
                 new UserDto(1L, "smith@email.com", "Ron", "Smith",

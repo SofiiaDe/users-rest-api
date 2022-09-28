@@ -8,6 +8,7 @@ import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
+import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +22,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.testtask.usersrestapi.UnitTestExpectedDtoSupplier.createUserDtoList;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -36,8 +39,11 @@ class UserRestControllerTest {
 
     private static final String USER_ENDPOINT = "/usersApi/users";
     private static final String UPDATE_USER_ENDPOINT = "/usersApi/users" + "/{id}";
+    private static final String SEARCH_USER_ENDPOINT = "/usersApi/users" + "/search";
     private static final Long DEFAULT_USER_ID = 123L;
     private static final Long NOT_EXIST_ID = -1L;
+    private static final LocalDate fromDate = LocalDate.of(1990, 1, 1);
+    private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
     private MockMvc mockMvc;
     @Mock
     private IUserService userService;
@@ -47,20 +53,24 @@ class UserRestControllerTest {
     private UserModelAssembler userModelAssembler;
     private UserDto userDto;
     private ObjectMapper objectMapper;
+    private List<UserDto> userDtoList;
+    private DateRangeParameters dateRangeParams;
 
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        userDto = UnitTestExpectedDtoSupplier.createUser();
+        userDto = UnitTestExpectedDtoSupplier.createUserDto();
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        userDtoList = createUserDtoList();
+        dateRangeParams = new DateRangeParameters(fromDate, toDate);
     }
 
     @Test
     void getUserByIdTest_givenExistingUser_whenUserRequested_thenResourceRetrieved() throws Exception {
         given(this.userService.getUserById(DEFAULT_USER_ID))
-                .willReturn(UnitTestExpectedDtoSupplier.createUser());
+                .willReturn(UnitTestExpectedDtoSupplier.createUserDto());
 
         this.mockMvc.perform(get(USER_ENDPOINT + "/" + DEFAULT_USER_ID))
                 .andExpect(status().isOk())
@@ -71,7 +81,7 @@ class UserRestControllerTest {
     @Test
     void getAllUsersTest() throws Exception {
         when(userService.getAllUsers())
-                .thenReturn(UnitTestExpectedDtoSupplier.createUsersList());
+                .thenReturn(createUserDtoList());
 
         mockMvc
                 .perform(
@@ -124,8 +134,7 @@ class UserRestControllerTest {
                         patch(UPDATE_USER_ENDPOINT, DEFAULT_USER_ID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(updates)))
-                .andExpect(status().isOk())
-        ;
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -148,5 +157,18 @@ class UserRestControllerTest {
                 .perform(delete(USER_ENDPOINT + "/{id}", NOT_EXIST_ID))
                 .andExpect(status().isNotAcceptable());
         verify(userService).deleteUserById(NOT_EXIST_ID);
+    }
+
+    @Test
+    void testSearchUsersByBirthDateRange_ShouldReturnCorrectData() throws Exception {
+
+        when(userService.searchUsersByBirthDate(any(), any())).thenReturn(userDtoList);
+
+        mockMvc.perform(
+                        get(SEARCH_USER_ENDPOINT, dateRangeParams)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verifyNoMoreInteractions(userService);
+
     }
 }

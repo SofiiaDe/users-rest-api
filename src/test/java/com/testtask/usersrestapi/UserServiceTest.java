@@ -6,7 +6,6 @@ import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.repository.IUserRepository;
-import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
 import com.testtask.usersrestapi.utils.UserMapper;
@@ -14,14 +13,14 @@ import com.testtask.usersrestapi.utils.UserMapperImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -34,19 +33,25 @@ class UserServiceTest {
     private static final String CAN_NOT_DELETE_USER = "Can't delete user with id = ";
     private static final Long NOT_EXIST_ID = -1L;
     private static final Long DEFAULT_USER_ID = 123L;
+    private static final LocalDate fromDate = LocalDate.of(1980, 1, 1);
+    private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
     @Mock
     private IUserRepository userRepositoryMock;
     private UserMapper userMapper;
     private IUserService userService;
     private UserDto userDto;
     private User expectedUser;
+    private List<UserDto> userDtoList;
+    private List<User> usersList;
 
     @BeforeEach
     public void setUp() {
         userMapper = new UserMapperImpl();
         userService = new UserService(userRepositoryMock, userMapper);
-        userDto = UnitTestExpectedDtoSupplier.createUser();
+        userDto = UnitTestExpectedDtoSupplier.createUserDto();
         expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
+        userDtoList = UnitTestExpectedDtoSupplier.createUserDtoList();
+        usersList = UnitTestExpectedEntitySupplier.createUsersList();
     }
 
     @Test
@@ -156,14 +161,14 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUserTest_WhenUserCanBeDeleted_RepoCalled() {
+    void testDeleteUser_WhenUserCanBeDeleted_RepoCalled() {
         userService.deleteUserById(DEFAULT_USER_ID);
 
         verify(userRepositoryMock, times(1)).deleteById(DEFAULT_USER_ID);
     }
 
     @Test
-    void deleteUserTest_WhenUserNotFound_ShouldThrowException() {
+    void testDeleteUser_WhenUserNotFound_ShouldThrowException() {
         doThrow(UserNotFoundException.class)
                 .when(userRepositoryMock)
                 .deleteById(NOT_EXIST_ID);
@@ -183,5 +188,53 @@ class UserServiceTest {
 
         assertEquals(CAN_NOT_DELETE_USER + NOT_EXIST_ID, exception.getMessage());
         assertNotEquals(messageNotToGet, exception.getMessage());
+    }
+
+    @Test
+    void testSearchUsersByBirthDate_whenNoUsersFound_returnsEmptyCollections() {
+        when(userRepositoryMock.findByBirthDate(any(), any())).thenReturn(Collections.emptyList());
+
+        List<UserDto> result = userService.searchUsersByBirthDate(fromDate, toDate);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testSearchUsersByBirthDate_whenCalled_repositoryCalled() {
+
+        userService.searchUsersByBirthDate(fromDate, toDate);
+        verify(userRepositoryMock, times(1)).findByBirthDate(fromDate, toDate);
+    }
+
+    @Test
+    void testSearchUsersByBirthDate_whenCalled_returnCorrectData() {
+
+        when(userRepositoryMock.findByBirthDate(fromDate, toDate)).thenReturn(usersList);
+
+        List<UserDto> result = userService.searchUsersByBirthDate(fromDate, toDate);
+
+        assertEquals(result, userDtoList);
+    }
+
+    @Test
+    void testSearchUsersByBirthDate_whenCalled_shouldFilterData() {
+
+        List<User> allUsers = new ArrayList<>();
+        User userWithBoundaryBirthDate = new User(3L, "email@email.com", "FirstName", "LastName",
+                LocalDate.of(1995, 1, 1), "Kyiv", "095-999-99-99");
+        allUsers.add(usersList.get(0));
+        allUsers.add(usersList.get(1));
+        allUsers.add(expectedUser);
+        allUsers.add(userWithBoundaryBirthDate);
+
+        List<User> expectedResult = List.of(usersList.get(1), userWithBoundaryBirthDate);
+
+        LocalDate newFromDate = LocalDate.of(1995, 1, 1);
+        when(userRepositoryMock.findByBirthDate(newFromDate, toDate)).thenReturn(expectedResult);
+        List<UserDto> actualResult = userService.searchUsersByBirthDate(newFromDate, toDate);
+
+        assertThat(actualResult, hasSize(2));
+        assertThat(actualResult.get(0).getBirthDate(), is(LocalDate.of(1996, 9, 17)));
+        assertThat(actualResult.get(1).getBirthDate(), is(newFromDate));
+
     }
 }
