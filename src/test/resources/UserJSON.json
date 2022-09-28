@@ -1,0 +1,9 @@
+{
+  "id": 123,
+  "email": "aaa@bbb.ccc",
+  "firstName": "UserFirstName",
+  "lastName": "UserFirstName",
+  "birthDate": "1991-07-25",
+  "address": "Kyiv",
+  "phoneNumber": "(099)999-99-99"
+}
