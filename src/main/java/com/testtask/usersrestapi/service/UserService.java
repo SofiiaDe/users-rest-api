@@ -5,8 +5,8 @@ import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.repository.IUserRepository;
-import com.testtask.usersrestapi.utils.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -31,7 +31,7 @@ public class UserService implements IUserService {
     @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(userMapper::userToDto)
+                .map(userMapper::toDto)
                 .toList();
     }
 
@@ -41,7 +41,7 @@ public class UserService implements IUserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + id));
 
-        return userMapper.userToDto(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -51,14 +51,14 @@ public class UserService implements IUserService {
             throw new UserAlreadyExistsException(USER_ALREADY_EXISTS + newUser.getEmail());
         }
 
-        return userMapper.userToDto(userRepository.save(userMapper.dtoToUser(newUser)));
+        return userMapper.toDto(userRepository.save(userMapper.toEntity(newUser)));
     }
 
     @Override
     @Transactional
     public UserDto updateUser(UserDto updatedUserDto) {
 
-        return userMapper.userToDto(userRepository.save(userMapper.dtoToUser(updatedUserDto)));
+        return userMapper.toDto(userRepository.save(userMapper.toEntity(updatedUserDto)));
     }
 
     @Override
@@ -82,14 +82,14 @@ public class UserService implements IUserService {
 
         User updatedUser = userRepository.save(user.get());
 
-        return userMapper.userToDto(updatedUser);
+        return userMapper.toDto(updatedUser);
     }
 
     @Override
     public List<UserDto> searchUsersByBirthDate(LocalDate fromDate, LocalDate toDate) {
         List<User> searchedUsers = userRepository.findByBirthDate(fromDate, toDate);
         return searchedUsers.stream()
-                .map(userMapper::userToDto)
+                .map(userMapper::toDto)
                 .toList();
     }
 
