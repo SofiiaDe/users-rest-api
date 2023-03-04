@@ -5,11 +5,11 @@ import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
 import com.testtask.usersrestapi.model.User;
 import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.mapper.UserMapper;
+import com.testtask.usersrestapi.model.mapper.UserMapperImpl;
 import com.testtask.usersrestapi.repository.IUserRepository;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
-import com.testtask.usersrestapi.utils.UserMapper;
-import com.testtask.usersrestapi.utils.UserMapperImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,7 +64,7 @@ class UserServiceTest {
     @Test
     void testCreateUser_whenRepoThrows_throwsException() {
         when(userRepositoryMock.findUserByEmail(userDto.getEmail())).thenReturn(
-                Optional.of(userMapper.dtoToUser(userDto)));
+                Optional.of(userMapper.toEntity(userDto)));
 
         assertThrowsExactly(UserAlreadyExistsException.class, () -> userService.createUser(userDto));
     }
@@ -73,7 +73,7 @@ class UserServiceTest {
     void testCreateUser_whenThrowsUserExistsException_shouldShowExceptionMessage() {
         String messageNotToGet = "aaaaa";
         when(userRepositoryMock.findUserByEmail(userDto.getEmail())).thenReturn(
-                Optional.of(userMapper.dtoToUser(userDto)));
+                Optional.of(userMapper.toEntity(userDto)));
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
                 () -> userService.createUser(userDto));
@@ -92,7 +92,7 @@ class UserServiceTest {
 
     @Test
     void testGetUserById_whenCalled_RepoCalled() {
-        User user = userMapper.dtoToUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
         when(userRepositoryMock.findById(any())).thenReturn(Optional.of(user));
 
@@ -128,7 +128,7 @@ class UserServiceTest {
         long userId = 123L;
 
         when(userRepositoryMock.findById(userId)).thenReturn(
-                Optional.of(userMapper.dtoToUser(userDto)));
+                Optional.of(userMapper.toEntity(userDto)));
 
         UserDto result = userService.getUserById(userId);
 

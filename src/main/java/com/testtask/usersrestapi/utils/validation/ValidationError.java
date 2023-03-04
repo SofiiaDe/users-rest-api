@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class ValidationError {
 
-    private Map<String, List<String>> errors = new HashMap<>();
+    private final Map<String, List<String>> errors = new HashMap<>();
     private String errorMessage;
 
     void addValidationError(String field, String defaultMessage) {

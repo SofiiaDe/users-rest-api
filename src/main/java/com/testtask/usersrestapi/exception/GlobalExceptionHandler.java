@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<String> handlerDogProcessingException(UserAlreadyExistsException ex) {
+    public ResponseEntity<String> handlerUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
     }
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> invalidArticleCreationLanguageContent(
+    public ResponseEntity<String> handleValidationException(
             ConstraintViolationException exception) {
         ValidationError error = ValidationErrorBuilder
                 .fromBindingErrors(exception.getConstraintViolations());
