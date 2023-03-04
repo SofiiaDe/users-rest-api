@@ -8,6 +8,7 @@ import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapperImpl;
 import com.testtask.usersrestapi.repository.IUserRepository;
+import com.testtask.usersrestapi.repository.IUserSearchRepository;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,8 +36,13 @@ class UserServiceTest {
     private static final Long DEFAULT_USER_ID = 123L;
     private static final LocalDate fromDate = LocalDate.of(1980, 1, 1);
     private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
+
     @Mock
     private IUserRepository userRepositoryMock;
+
+    @Mock
+    private IUserSearchRepository userSearchRepositoryMock;
+
     private UserMapper userMapper;
     private IUserService userService;
     private UserDto userDto;
@@ -47,7 +53,7 @@ class UserServiceTest {
     @BeforeEach
     public void setUp() {
         userMapper = new UserMapperImpl();
-        userService = new UserService(userRepositoryMock, userMapper);
+        userService = new UserService(userRepositoryMock, userSearchRepositoryMock, userMapper);
         userDto = UnitTestExpectedDtoSupplier.createUserDto();
         expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
         userDtoList = UnitTestExpectedDtoSupplier.createUserDtoList();

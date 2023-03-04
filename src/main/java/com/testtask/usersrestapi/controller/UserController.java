@@ -2,10 +2,12 @@ package com.testtask.usersrestapi.controller;
 
 import com.testtask.usersrestapi.model.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
+import com.testtask.usersrestapi.model.payload.request.SearchRequest;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -98,6 +100,11 @@ public class UserController {
                 .toList();
 
         return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
+    }
+
+    @PostMapping(value = "/search")
+    public Page<UserDto> search(@RequestBody SearchRequest request) {
+        return userService.searchUser(request);
     }
 
 }
