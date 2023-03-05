@@ -3,7 +3,7 @@ package com.testtask.usersrestapi.action;
 import com.testtask.usersrestapi.action.params.ActionParams;
 import com.testtask.usersrestapi.action.result.AddUserToGroupActionExecutionResult;
 import com.testtask.usersrestapi.service.IUserService;
-import com.testtask.usersrestapi.utils.validation.ValidationResult;
+import com.testtask.usersrestapi.action.validation.ValidationResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class AddUserToGroupAction extends ActionBase<AddUserToGroupActionExecuti
   private IUserService userService;
 
   @Override
-  protected ValidationResult onValidate() {
+  protected ValidationResult onValidate(ActionParams actionParams) {
     return null;
   }
 

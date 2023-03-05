@@ -3,8 +3,9 @@ package com.testtask.usersrestapi.action;
 import com.testtask.usersrestapi.action.params.ActionParams;
 import com.testtask.usersrestapi.action.params.ScheduleVisitActionParams;
 import com.testtask.usersrestapi.action.result.ScheduleVisitActionExecutionResult;
+import com.testtask.usersrestapi.action.validation.ScheduleVisitValidationResult;
 import com.testtask.usersrestapi.service.IVisitService;
-import com.testtask.usersrestapi.utils.validation.ValidationResult;
+import com.testtask.usersrestapi.action.validation.ValidationResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,13 @@ public class ScheduleVisitAction extends ActionBase<ScheduleVisitActionExecution
   private IVisitService visitService;
 
   @Override
-  protected ValidationResult onValidate() {
-    return null;
+  protected ValidationResult onValidate(ActionParams actionParams) {
+    ValidationResult validationResult = new ScheduleVisitValidationResult();
+    ScheduleVisitActionParams scheduleVisitActionParams = (ScheduleVisitActionParams) actionParams;
+    if (scheduleVisitActionParams.getStartTime().isAfter(scheduleVisitActionParams.getEndTime())) {
+      validationResult.setSuccess(false).setUserFriendlyMessage("`start` should be more recent then `end`");
+    }
+    return validationResult;
   }
 
   @Override
