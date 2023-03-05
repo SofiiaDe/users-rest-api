@@ -5,11 +5,13 @@ import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecution
 import com.testtask.usersrestapi.exception.UserAlreadyExistsException;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
+import com.testtask.usersrestapi.model.entity.Community;
 import com.testtask.usersrestapi.model.entity.User;
 import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.model.entity.UserCommunity;
 import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
+import com.testtask.usersrestapi.repository.CommunityRepository;
 import com.testtask.usersrestapi.repository.UserGroupRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -33,9 +35,11 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final UserGroupRepository userGroupRepository;
+    private final CommunityRepository communityRepository;
     private final UserMapper userMapper;
     private final AddUserToGroupMapper addUserToGroupMapper;
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
+    private static final String COMMUNITY_NOT_FOUND = "Can't retrieve community with id = ";
     private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
     private static final String CAN_NOT_DELETE_USER = "Can't delete user with id = ";
     private static final String UPDATE_EXCEPTION = "Can't update the user";
@@ -122,12 +126,16 @@ public class UserService implements IUserService {
     public AddUserToCommunityActionExecutionResult addUserToCommunity(
             AddUserToCommunityActionParams actionParams) {
 
-        UserCommunity userCommunity = userGroupRepository.save(addUserToGroupMapper.toEntity(actionParams));
-        UserDto userDto = getUserById(actionParams.getUserId());
+        User user = userRepository.findById(actionParams.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + actionParams.getUserId()));
+        Community community = communityRepository.findById(actionParams.getCommunityId())
+                .orElseThrow(() -> new UserNotFoundException(COMMUNITY_NOT_FOUND + actionParams.getCommunityId()));
+        UserCommunity userCommunity = userGroupRepository.save(
+                new UserCommunity().setUser(user).setCommunity(community));
 
         AddUserToCommunityActionExecutionResult result = new AddUserToCommunityActionExecutionResult()
-                .setEmail(userDto.getEmail())
-                .setUserFullName(userDto.getFirstName() + " " + userDto.getLastName())
+                .setEmail(user.getEmail())
+                .setUserFullName(user.getFirstName() + " " + user.getLastName())
                 .setCommunityTitle(userCommunity.getCommunity().getTitle());
         result.setSuccess(true);
 

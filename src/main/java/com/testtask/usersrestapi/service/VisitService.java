@@ -27,9 +27,9 @@ public class VisitService implements IVisitService {
   public ScheduleVisitActionExecutionResult scheduleVisit(
       ScheduleVisitActionParams actionParams) {
 
-    Visit visit = visitRepository.save(scheduleVisitMapper.toEntity(actionParams));
     User user = userRepository.findById(actionParams.getUserId())
-        .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + actionParams.getUserId()));
+            .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + actionParams.getUserId()));
+    Visit visit = visitRepository.save(scheduleVisitMapper.toEntity(actionParams).setUser(user));
 
     ScheduleVisitActionExecutionResult result = new ScheduleVisitActionExecutionResult()
         .setEmail(user.getEmail())

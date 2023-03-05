@@ -21,6 +21,8 @@ public class ScheduleVisitAction extends ActionBase<ScheduleVisitActionExecution
     ScheduleVisitActionParams scheduleVisitActionParams = (ScheduleVisitActionParams) actionParams;
     if (scheduleVisitActionParams.getStartTime().isAfter(scheduleVisitActionParams.getEndTime())) {
       validationResult.setSuccess(false).setUserFriendlyMessage("`start` should be more recent then `end`");
+    } else {
+      validationResult.setSuccess(true).setUserFriendlyMessage("Data to schedule user's visit is valid");
     }
     return validationResult;
   }
