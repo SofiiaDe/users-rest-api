@@ -9,9 +9,9 @@ import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
-import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
@@ -36,7 +37,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Transactional
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + id));
@@ -45,7 +45,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Transactional(rollbackOn = {Exception.class})
     public UserDto createUser(UserDto newUser) {
         if (emailExist(newUser.getEmail())) {
             throw new UserAlreadyExistsException(USER_ALREADY_EXISTS + newUser.getEmail());
@@ -55,7 +54,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Transactional
     public UserDto updateUser(UserDto updatedUserDto) {
 
         return userMapper.toDto(userRepository.save(userMapper.toEntity(updatedUserDto)));
