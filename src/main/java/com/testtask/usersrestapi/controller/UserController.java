@@ -64,8 +64,7 @@ public class UserController {
         UserDto updatedUser = userService.updateUser(newUser);
         EntityModel<UserDto> entityModel = assembler.toModel(updatedUser);
 
-        return ResponseEntity
-                .ok().body(entityModel);
+        return ResponseEntity.ok().body(entityModel);
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -74,8 +73,7 @@ public class UserController {
         UserDto partiallyUpdatedUser = userService.patchUpdateUser(updates, id);
         EntityModel<UserDto> entityModel = assembler.toModel(partiallyUpdatedUser);
 
-        return ResponseEntity
-                .ok(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri());
+        return ResponseEntity.ok().body(entityModel);
     }
 
     @DeleteMapping("/{id}")
