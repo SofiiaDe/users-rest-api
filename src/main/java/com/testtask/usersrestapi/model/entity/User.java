@@ -17,8 +17,6 @@ import java.time.LocalDate;
 
 @Entity(name = "users")
 @Data
-//@AllArgsConstructor
-//@NoArgsConstructor
 @Accessors(chain = true)
 public class User {
 
