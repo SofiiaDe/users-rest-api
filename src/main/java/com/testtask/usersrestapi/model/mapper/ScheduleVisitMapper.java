@@ -1,7 +1,7 @@
 package com.testtask.usersrestapi.model.mapper;
 
 import com.testtask.usersrestapi.action.params.ScheduleVisitActionParams;
-import com.testtask.usersrestapi.model.Visit;
+import com.testtask.usersrestapi.model.entity.Visit;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

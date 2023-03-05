@@ -1,10 +1,11 @@
 package com.testtask.usersrestapi.controller;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -27,7 +28,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final IUserService userService;
-
     private final UserModelAssembler assembler;
 
     @GetMapping
@@ -46,7 +46,7 @@ public class UserController {
         EntityModel<UserDto> entityModel = assembler.toModel(userService.createUser(newUser));
 
         return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
@@ -54,7 +54,6 @@ public class UserController {
     public EntityModel<UserDto> getUserById(@PathVariable Long id) {
 
         UserDto userDto = userService.getUserById(id);
-
         return assembler.toModel(userDto);
     }
 
@@ -62,7 +61,6 @@ public class UserController {
     ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
         UserDto updatedUser = userService.updateUser(newUser);
-
         EntityModel<UserDto> entityModel = assembler.toModel(updatedUser);
 
         return ResponseEntity
@@ -74,7 +72,6 @@ public class UserController {
     public ResponseEntity<?> partialUpdateUser(@RequestBody Map<String, Object> updates, @PathVariable("id") Long id) {
 
         UserDto partiallyUpdatedUser = userService.patchUpdateUser(updates, id);
-
         EntityModel<UserDto> entityModel = assembler.toModel(partiallyUpdatedUser);
 
         return ResponseEntity
@@ -85,7 +82,6 @@ public class UserController {
     ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         userService.deleteUserById(id);
-
         return ResponseEntity.noContent().build();
     }
 

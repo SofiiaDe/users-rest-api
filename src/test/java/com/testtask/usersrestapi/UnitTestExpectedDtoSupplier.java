@@ -1,6 +1,6 @@
 package com.testtask.usersrestapi;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 
 import java.time.LocalDate;
 import java.util.List;

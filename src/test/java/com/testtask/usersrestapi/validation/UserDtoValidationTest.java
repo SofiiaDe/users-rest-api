@@ -1,7 +1,7 @@
 package com.testtask.usersrestapi.validation;
 
 import com.testtask.usersrestapi.UnitTestExpectedDtoSupplier;
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.utils.validation.validators.BirthDateValidator;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

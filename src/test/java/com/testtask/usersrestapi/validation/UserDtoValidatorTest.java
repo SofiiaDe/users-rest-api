@@ -1,6 +1,6 @@
 package com.testtask.usersrestapi.validation;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.utils.validation.validators.UserDtoValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;

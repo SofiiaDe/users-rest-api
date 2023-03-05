@@ -2,7 +2,8 @@ package com.testtask.usersrestapi.exception;
 
 import com.testtask.usersrestapi.utils.validation.ValidationError;
 import com.testtask.usersrestapi.utils.validation.ValidationErrorBuilder;
-import jakarta.validation.ConstraintViolationException;
+//import jakarta.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.testtask.usersrestapi.utils.validation;
 
 import com.testtask.usersrestapi.utils.validation.constraints.DateRangeValidation;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

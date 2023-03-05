@@ -3,11 +3,11 @@ package com.testtask.usersrestapi.service;
 import com.testtask.usersrestapi.action.result.ScheduleVisitActionExecutionResult;
 import com.testtask.usersrestapi.action.params.ScheduleVisitActionParams;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
-import com.testtask.usersrestapi.model.User;
-import com.testtask.usersrestapi.model.Visit;
+import com.testtask.usersrestapi.model.entity.User;
+import com.testtask.usersrestapi.model.entity.Visit;
 import com.testtask.usersrestapi.model.mapper.ScheduleVisitMapper;
-import com.testtask.usersrestapi.repository.IUserRepository;
-import com.testtask.usersrestapi.repository.IVisitRepository;
+import com.testtask.usersrestapi.repository.UserRepository;
+import com.testtask.usersrestapi.repository.VisitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +19,8 @@ public class VisitService implements IVisitService {
 
   private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
 
-  private final IVisitRepository visitRepository;
-  private final IUserRepository userRepository;
+  private final VisitRepository visitRepository;
+  private final UserRepository userRepository;
   private ScheduleVisitMapper scheduleVisitMapper;
 
   @Override
