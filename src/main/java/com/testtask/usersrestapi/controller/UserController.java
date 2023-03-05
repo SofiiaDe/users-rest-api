@@ -85,7 +85,7 @@ public class UserController {
 
     @GetMapping("/search")
     public CollectionModel<EntityModel<UserDto>> searchUsersByBirthDateRange(
-            @Valid DateRangeParameters parameters) {
+            @Valid @RequestBody DateRangeParameters parameters) {
 
         List<EntityModel<UserDto>> users = userService.searchUsersByBirthDate(parameters.from(), parameters.to()).stream()
                 .map(assembler::toModel)
