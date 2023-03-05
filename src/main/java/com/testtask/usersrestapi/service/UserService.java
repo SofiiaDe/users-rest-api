@@ -20,6 +20,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -91,9 +92,17 @@ public class UserService implements IUserService {
 
         Optional<User> user = userRepository.findById(id);
         user.ifPresent(user1 -> updates.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(User.class, key);
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, user1, value);
+            switch (key) {
+                case "email" -> user1.setEmail((String) value);
+                case "firstName" -> user1.setFirstName((String) value);
+                case "lastName" -> user1.setLastName((String) value);
+                case "birthDate" ->
+                        user1.setBirthDate(LocalDate.parse((String) value, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                case "address" -> user1.setAddress((String) value);
+                case "phoneNumber" -> user1.setPhoneNumber((String) value);
+                default -> {
+                }
+            }
         }));
 
         User updatedUser = userRepository.save(user.get());
@@ -111,15 +120,15 @@ public class UserService implements IUserService {
 
     @Override
     public AddUserToCommunityActionExecutionResult addUserToCommunity(
-        AddUserToCommunityActionParams actionParams) {
+            AddUserToCommunityActionParams actionParams) {
 
         UserCommunity userCommunity = userGroupRepository.save(addUserToGroupMapper.toEntity(actionParams));
         UserDto userDto = getUserById(actionParams.getUserId());
 
         AddUserToCommunityActionExecutionResult result = new AddUserToCommunityActionExecutionResult()
-            .setEmail(userDto.getEmail())
-            .setUserFullName(userDto.getFirstName() + " " + userDto.getLastName())
-            .setCommunityTitle(userCommunity.getCommunity().getTitle());
+                .setEmail(userDto.getEmail())
+                .setUserFullName(userDto.getFirstName() + " " + userDto.getLastName())
+                .setCommunityTitle(userCommunity.getCommunity().getTitle());
         result.setSuccess(true);
 
         return result;
