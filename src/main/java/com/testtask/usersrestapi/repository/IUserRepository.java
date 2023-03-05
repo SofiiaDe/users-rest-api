@@ -5,18 +5,13 @@ import com.testtask.usersrestapi.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IUserRepository {
-
-    List<User> findAll();
-
-    Optional<User> findById(Long id);
-
-    User save(User newUser);
+@Repository
+public interface IUserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByEmail(String email);
-
-    void deleteById(Long id);
 
     List<User> findByBirthDate(LocalDate fromDate, LocalDate toDate);
 }
