@@ -18,7 +18,6 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 public class UserDto {
 
-    @NotNull
     private Long id;
 
     @NotBlank(message = "The email address is required.")

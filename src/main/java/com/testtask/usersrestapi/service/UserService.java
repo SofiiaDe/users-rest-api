@@ -13,6 +13,7 @@ import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.repository.UserGroupRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Log4j2
 @Service
 @AllArgsConstructor
 @Transactional
@@ -35,6 +37,8 @@ public class UserService implements IUserService {
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
     private static final String USER_ALREADY_EXISTS = "There is an account with the following email address: ";
     private static final String CAN_NOT_DELETE_USER = "Can't delete user with id = ";
+    private static final String UPDATE_EXCEPTION = "Can't update the user";
+
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -62,8 +66,15 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto updateUser(UserDto updatedUserDto) {
-
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(updatedUserDto)));
+        User user;
+        if (userRepository.existsById(updatedUserDto.getId())) {
+            User userToBeUpdated = userMapper.toEntity(updatedUserDto);
+            user = userRepository.save(userToBeUpdated);
+        } else {
+            log.error(UPDATE_EXCEPTION);
+            throw new UserProcessingException(UPDATE_EXCEPTION);
+        }
+        return userMapper.toDto(user);
     }
 
     @Override

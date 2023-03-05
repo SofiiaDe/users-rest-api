@@ -4,6 +4,7 @@ import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
+
 import javax.validation.Valid;
 
 import lombok.AllArgsConstructor;
@@ -57,15 +58,14 @@ public class UserController {
         return assembler.toModel(userDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
         UserDto updatedUser = userService.updateUser(newUser);
         EntityModel<UserDto> entityModel = assembler.toModel(updatedUser);
 
         return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(entityModel);
+                .ok().body(entityModel);
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
