@@ -1,7 +1,7 @@
 package com.testtask.usersrestapi.service;
 
-import com.testtask.usersrestapi.action.params.AddUserToGroupActionParams;
-import com.testtask.usersrestapi.action.result.AddUserToGroupActionExecutionResult;
+import com.testtask.usersrestapi.action.params.AddUserToCommunityActionParams;
+import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecutionResult;
 import com.testtask.usersrestapi.exception.UserAlreadyExistsException;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
@@ -99,16 +99,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public AddUserToGroupActionExecutionResult addUserToGroup(
-        AddUserToGroupActionParams actionParams) {
+    public AddUserToCommunityActionExecutionResult addUserToCommunity(
+        AddUserToCommunityActionParams actionParams) {
 
         UserCommunity userCommunity = userGroupRepository.save(addUserToGroupMapper.toEntity(actionParams));
         UserDto userDto = getUserById(actionParams.getUserId());
 
-        AddUserToGroupActionExecutionResult result = new AddUserToGroupActionExecutionResult()
+        AddUserToCommunityActionExecutionResult result = new AddUserToCommunityActionExecutionResult()
             .setEmail(userDto.getEmail())
             .setUserFullName(userDto.getFirstName() + " " + userDto.getLastName())
-            .setGroupTitle(userCommunity.getCommunity().getTitle());
+            .setCommunityTitle(userCommunity.getCommunity().getTitle());
         result.setSuccess(true);
 
         return result;

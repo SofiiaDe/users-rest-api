@@ -1,7 +1,7 @@
 package com.testtask.usersrestapi.service;
 
-import com.testtask.usersrestapi.action.params.AddUserToGroupActionParams;
-import com.testtask.usersrestapi.action.result.AddUserToGroupActionExecutionResult;
+import com.testtask.usersrestapi.action.params.AddUserToCommunityActionParams;
+import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecutionResult;
 import com.testtask.usersrestapi.model.dto.UserDto;
 
 import java.time.LocalDate;
@@ -24,5 +24,5 @@ public interface IUserService {
 
     List<UserDto> searchUsersByBirthDate(LocalDate fromDate, LocalDate toDate);
 
-    AddUserToGroupActionExecutionResult addUserToGroup(AddUserToGroupActionParams actionParams);
+    AddUserToCommunityActionExecutionResult addUserToCommunity(AddUserToCommunityActionParams actionParams);
 }

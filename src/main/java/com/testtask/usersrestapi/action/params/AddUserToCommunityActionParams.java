@@ -7,9 +7,9 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class AddUserToGroupActionParams extends ActionParams {
+public class AddUserToCommunityActionParams extends ActionParams {
 
   private Long userId;
-  private Long groupId;
+  private Long communityId;
 
 }

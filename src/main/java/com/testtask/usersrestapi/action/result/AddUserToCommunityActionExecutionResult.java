@@ -7,10 +7,10 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class AddUserToGroupActionExecutionResult extends ActionExecutionResult {
+public class AddUserToCommunityActionExecutionResult extends ActionExecutionResult {
 
   private String email;
   private String userFullName;
-  private String groupTitle;
+  private String communityTitle;
 }
 

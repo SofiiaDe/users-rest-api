@@ -18,8 +18,8 @@ public class ActionParamsFactory implements IActionParamsFactory {
     try {
       return switch (actionName) {
         case "scheduleVisit" -> objectMapper.readValue(jsonString, ScheduleVisitActionParams.class);
-        case "addUserToGroup" ->
-            objectMapper.readValue(jsonString, AddUserToGroupActionParams.class);
+        case "addUserToCommunity" ->
+            objectMapper.readValue(jsonString, AddUserToCommunityActionParams.class);
         default -> throw new IllegalStateException("Action '" + actionName + "' does not exist");
       };
     } catch (JsonProcessingException e) {

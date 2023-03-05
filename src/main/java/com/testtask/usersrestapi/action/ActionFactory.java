@@ -17,7 +17,7 @@ public class ActionFactory implements IActionFactory {
 
     return switch (actionName) {
       case "scheduleVisit" -> new ScheduleVisitAction(visitService);
-      case "addUserToGroup" -> new AddUserToGroupAction(userService);
+      case "addUserToCommunity" -> new AddUserToCommunityAction(userService);
       default -> throw new IllegalStateException("Action '" + actionName + "' does not exist");
     };
   }
