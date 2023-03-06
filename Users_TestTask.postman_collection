@@ -1,0 +1,1309 @@
+{
+	"info": {
+		"_postman_id": "cf91d8cd-d2b2-41e7-bd05-25db454b1cac",
+		"name": "Users Test Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21091574"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"vlad@mail.com\",\r\n    \"firstName\": \"Vlad\",\r\n    \"lastName\": \"Photh\",\r\n    \"birthDate\": \"1998-01-11\",\r\n    \"address\": \"Kyiv, Lomonosova 34\",\r\n    \"phoneNumber\": \"095-999-99-99\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create user Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"vlad@mail.com\",\r\n    \"firstName\": \"Vlad\",\r\n    \"lastName\": \"Photh\",\r\n    \"birthDate\": \"1998-01-11\",\r\n    \"address\": \"Kyiv, Lomonosova 34\",\r\n    \"phoneNumber\": \"095-999-99-99\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Location",
+							"value": "http://localhost:8080/users/1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 16:45:57 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"email\": \"vlad@mail.com\",\n    \"firstName\": \"Vlad\",\n    \"lastName\": \"Photh\",\n    \"birthDate\": \"1998-01-11\",\n    \"address\": \"Kyiv, Lomonosova 34\",\n    \"phoneNumber\": \"095-999-99-99\",\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users/1\"\n        },\n        \"users\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update user (full update)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"email\": \"prius@mail.com\",\r\n    \"firstName\": \"Brian\",\r\n    \"lastName\": \"Prius\",\r\n    \"birthDate\": \"1990-03-12\",\r\n    \"address\": \"Kyiv, Havela 14\",\r\n    \"phoneNumber\": \"093-000-99-93\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update user (full update) Response",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"email\": \"prius@mail.com\",\r\n    \"firstName\": \"Brian\",\r\n    \"lastName\": \"Prius\",\r\n    \"birthDate\": \"1990-03-12\",\r\n    \"address\": \"Kyiv, Havela 14\",\r\n    \"phoneNumber\": \"093-000-99-93\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 18:40:42 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 3,\n    \"email\": \"prius@mail.com\",\n    \"firstName\": \"Brian\",\n    \"lastName\": \"Prius\",\n    \"birthDate\": \"1990-03-12\",\n    \"address\": \"Kyiv, Havela 14\",\n    \"phoneNumber\": \"093-000-99-93\",\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users/3\"\n        },\n        \"users\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all users Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 18:44:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_embedded\": {\n        \"userDtoList\": [\n            {\n                \"id\": 1,\n                \"email\": \"vlad@mail.com\",\n                \"firstName\": \"Vlad\",\n                \"lastName\": \"Photh\",\n                \"birthDate\": \"1998-01-11\",\n                \"address\": \"Kyiv, Lomonosova 34\",\n                \"phoneNumber\": \"095-999-99-99\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/1\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            },\n            {\n                \"id\": 2,\n                \"email\": \"lebed@mail.com\",\n                \"firstName\": \"Kate\",\n                \"lastName\": \"Lebed\",\n                \"birthDate\": \"2000-10-21\",\n                \"address\": \"Lviv, Rynok 4\",\n                \"phoneNumber\": \"067-999-99-99\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/2\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            },\n            {\n                \"id\": 3,\n                \"email\": \"prius@mail.com\",\n                \"firstName\": \"Brian\",\n                \"lastName\": \"Prius\",\n                \"birthDate\": \"1990-03-12\",\n                \"address\": \"Kyiv, Havela 14\",\n                \"phoneNumber\": \"093-000-99-93\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/3\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            },\n            {\n                \"id\": 4,\n                \"email\": \"Stork@mail.com\",\n                \"firstName\": \"Pitt\",\n                \"lastName\": \"Stork\",\n                \"birthDate\": \"1996-03-12\",\n                \"address\": \"Odesa, Strasse 14\",\n                \"phoneNumber\": \"095-000-99-93\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/4\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            }\n        ]\n    },\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get user by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get user by ID Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 18:46:13 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"email\": \"lebed@mail.com\",\n    \"firstName\": \"Kate\",\n    \"lastName\": \"Lebed\",\n    \"birthDate\": \"2000-10-21\",\n    \"address\": \"Lviv, Rynok 4\",\n    \"phoneNumber\": \"067-999-99-99\",\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users/2\"\n        },\n        \"users\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update user (partially)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"stork34@mail.com\",\r\n    \"birthDate\": \"1996-03-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update user (partially) Response",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"stork34@mail.com\",\r\n    \"birthDate\": \"1996-03-11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 20:51:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"email\": \"stork34@mail.com\",\n    \"firstName\": \"Pitt\",\n    \"lastName\": \"Stork\",\n    \"birthDate\": \"1996-03-11\",\n    \"address\": \"Odesa, Strasse 14\",\n    \"phoneNumber\": \"095-000-99-93\",\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users/4\"\n        },\n        \"users\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete user by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete user by ID Response",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 21:33:30 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Search users by birthday range",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"1990-01-01\",\r\n    \"to\": \"1999-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Search users by birthday range Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": \"1990-01-01\",\r\n    \"to\": \"1999-12-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 22:09:51 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_embedded\": {\n        \"userDtoList\": [\n            {\n                \"id\": 1,\n                \"email\": \"vlad@mail.com\",\n                \"firstName\": \"Vlad\",\n                \"lastName\": \"Photh\",\n                \"birthDate\": \"1998-01-11\",\n                \"address\": \"Kyiv, Lomonosova 34\",\n                \"phoneNumber\": \"095-999-99-99\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/1\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            },\n            {\n                \"id\": 3,\n                \"email\": \"prius@mail.com\",\n                \"firstName\": \"Brian\",\n                \"lastName\": \"Prius\",\n                \"birthDate\": \"1990-03-12\",\n                \"address\": \"Kyiv, Havela 14\",\n                \"phoneNumber\": \"093-000-99-93\",\n                \"_links\": {\n                    \"self\": {\n                        \"href\": \"http://localhost:8080/users/3\"\n                    },\n                    \"users\": {\n                        \"href\": \"http://localhost:8080/users\"\n                    }\n                }\n            }\n        ]\n    },\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/users\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Action: schedule user's visit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": \"1\",\"date\": \"2023-03-16\",\"startTime\": \"16:00\",\"endTime\": \"17:00\"}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/actions/scheduleVisit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actions",
+						"scheduleVisit"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Action: schedule user's visit Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\": \"1\",\"date\": \"2023-03-16\",\"startTime\": \"16:00\",\"endTime\": \"17:00\"}",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/actions/scheduleVisit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actions",
+								"scheduleVisit"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 22:53:35 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"email\": \"vlad@mail.com\",\n    \"userFullName\": \"Vlad Photh\",\n    \"date\": \"2023-03-16\",\n    \"startTime\": \"16:00:00\",\n    \"endTime\": \"17:00:00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Action: add user to community",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": 2, \"communityId\": 1}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/actions/addUserToCommunity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actions",
+						"addUserToCommunity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Action: add user to community Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\": 2, \"communityId\": 1}",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/actions/addUserToCommunity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actions",
+								"addUserToCommunity"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 05 Mar 2023 23:22:24 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"email\": \"lebed@mail.com\",\n    \"userFullName\": \"Kate Lebed\",\n    \"communityTitle\": \"Artists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter users by firstName and sort by birthDate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"firstName\",\r\n            \"operator\": \"EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"Kate\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"birthDate\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter users by firstName and sort by birthDate Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"firstName\",\r\n            \"operator\": \"EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"Kate\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"birthDate\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:18:25 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 2,\n            \"email\": \"lebed@mail.com\",\n            \"firstName\": \"Kate\",\n            \"lastName\": \"Lebed\",\n            \"birthDate\": \"2000-10-21\",\n            \"address\": \"Lviv, Rynok 4\",\n            \"phoneNumber\": \"067-999-99-99\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 10,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 1,\n    \"totalPages\": 1,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 1,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Search User Without Filter and Sorting",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [],\r\n    \"sorts\": [],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Search User Without Filter and Sorting Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [],\r\n    \"sorts\": [],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:20:25 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 1,\n            \"email\": \"vlad@mail.com\",\n            \"firstName\": \"Vlad\",\n            \"lastName\": \"Photh\",\n            \"birthDate\": \"1998-01-11\",\n            \"address\": \"Kyiv, Lomonosova 34\",\n            \"phoneNumber\": \"095-999-99-99\"\n        },\n        {\n            \"id\": 2,\n            \"email\": \"lebed@mail.com\",\n            \"firstName\": \"Kate\",\n            \"lastName\": \"Lebed\",\n            \"birthDate\": \"2000-10-21\",\n            \"address\": \"Lviv, Rynok 4\",\n            \"phoneNumber\": \"067-999-99-99\"\n        },\n        {\n            \"id\": 3,\n            \"email\": \"prius@mail.com\",\n            \"firstName\": \"Brian\",\n            \"lastName\": \"Prius\",\n            \"birthDate\": \"1990-03-12\",\n            \"address\": \"Kyiv, Havela 14\",\n            \"phoneNumber\": \"093-000-99-93\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 10,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 3,\n    \"totalPages\": 1,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 3,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter user's lastName not equal to ... ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"operator\": \"NOT_EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"Lebed\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter user's lastName not equal to ...  Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"operator\": \"NOT_EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"Lebed\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:24:35 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 1,\n            \"email\": \"vlad@mail.com\",\n            \"firstName\": \"Vlad\",\n            \"lastName\": \"Photh\",\n            \"birthDate\": \"1998-01-11\",\n            \"address\": \"Kyiv, Lomonosova 34\",\n            \"phoneNumber\": \"095-999-99-99\"\n        },\n        {\n            \"id\": 3,\n            \"email\": \"prius@mail.com\",\n            \"firstName\": \"Brian\",\n            \"lastName\": \"Prius\",\n            \"birthDate\": \"1990-03-12\",\n            \"address\": \"Kyiv, Havela 14\",\n            \"phoneNumber\": \"093-000-99-93\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 10,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 2,\n    \"totalPages\": 1,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 2,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter email not equal to ... and size 1 response",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"email\",\r\n            \"operator\": \"NOT_EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"lebed3@email\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"direction\": \"DESC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter email not equal to ... and size 1 response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"email\",\r\n            \"operator\": \"NOT_EQUAL\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"lebed3@email\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"direction\": \"DESC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:27:06 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 3,\n            \"email\": \"prius@mail.com\",\n            \"firstName\": \"Brian\",\n            \"lastName\": \"Prius\",\n            \"birthDate\": \"1990-03-12\",\n            \"address\": \"Kyiv, Havela 14\",\n            \"phoneNumber\": \"093-000-99-93\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 1,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": false,\n    \"totalElements\": 3,\n    \"totalPages\": 3,\n    \"size\": 1,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 1,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter lastName like and sort by address DESC",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"operator\": \"LIKE\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"th\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"address\",\r\n            \"direction\": \"DESC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter lastName like and sort by address DESC Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"lastName\",\r\n            \"operator\": \"LIKE\",\r\n            \"field_type\": \"STRING\",\r\n            \"value\": \"th\"\r\n        }\r\n    ],\r\n    \"sorts\": [\r\n        {\r\n            \"key\": \"address\",\r\n            \"direction\": \"DESC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:30:03 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 1,\n            \"email\": \"vlad@mail.com\",\n            \"firstName\": \"Vlad\",\n            \"lastName\": \"Photh\",\n            \"birthDate\": \"1998-01-11\",\n            \"address\": \"Kyiv, Lomonosova 34\",\n            \"phoneNumber\": \"095-999-99-99\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 10,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 1,\n    \"totalPages\": 1,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 1,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter firstName IN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"firstName\",\r\n            \"operator\": \"IN\",\r\n            \"field_type\": \"STRING\",\r\n            \"values\": [\"Vlad\", \"Kate\"]\r\n        }\r\n    ],\r\n    \"sorts\": [],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter firstName IN Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"firstName\",\r\n            \"operator\": \"IN\",\r\n            \"field_type\": \"STRING\",\r\n            \"values\": [\"Vlad\", \"Kate\"]\r\n        }\r\n    ],\r\n    \"sorts\": [],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:32:24 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 1,\n            \"email\": \"vlad@mail.com\",\n            \"firstName\": \"Vlad\",\n            \"lastName\": \"Photh\",\n            \"birthDate\": \"1998-01-11\",\n            \"address\": \"Kyiv, Lomonosova 34\",\n            \"phoneNumber\": \"095-999-99-99\"\n        },\n        {\n            \"id\": 2,\n            \"email\": \"lebed@mail.com\",\n            \"firstName\": \"Kate\",\n            \"lastName\": \"Lebed\",\n            \"birthDate\": \"2000-10-21\",\n            \"address\": \"Lviv, Rynok 4\",\n            \"phoneNumber\": \"067-999-99-99\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageSize\": 10,\n        \"pageNumber\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 2,\n    \"totalPages\": 1,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 2,\n    \"empty\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Filter birthDate between",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"birthDate\",\r\n            \"operator\": \"BETWEEN\",\r\n            \"field_type\": \"DATE\",\r\n            \"value\": \"1990-01-01\",\r\n            \"value_to\": \"1999-12-31\"\r\n        }\r\n    ],\r\n   \"sorts\": [\r\n        {\r\n            \"key\": \"phoneNumber\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Filter birthDate between Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": [\r\n        {\r\n            \"key\": \"birthDate\",\r\n            \"operator\": \"BETWEEN\",\r\n            \"field_type\": \"DATE\",\r\n            \"value\": \"1990-01-01\",\r\n            \"value_to\": \"1999-12-31\"\r\n        }\r\n    ],\r\n   \"sorts\": [\r\n        {\r\n            \"key\": \"phoneNumber\",\r\n            \"direction\": \"ASC\"\r\n        }\r\n    ],\r\n    \"page\": null,\r\n    \"size\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Mar 2023 01:43:12 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"content\": [\n        {\n            \"id\": 3,\n            \"email\": \"prius@mail.com\",\n            \"firstName\": \"Brian\",\n            \"lastName\": \"Prius\",\n            \"birthDate\": \"1990-03-12\",\n            \"address\": \"Kyiv, Havela 14\",\n            \"phoneNumber\": \"093-000-99-93\"\n        },\n        {\n            \"id\": 1,\n            \"email\": \"vlad@mail.com\",\n            \"firstName\": \"Vlad\",\n            \"lastName\": \"Photh\",\n            \"birthDate\": \"1998-01-11\",\n            \"address\": \"Kyiv, Lomonosova 34\",\n            \"phoneNumber\": \"095-999-99-99\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"unpaged\": false,\n        \"paged\": true\n    },\n    \"last\": true,\n    \"totalPages\": 1,\n    \"totalElements\": 2,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 2,\n    \"empty\": false\n}"
+				}
+			]
+		}
+	]
+}
