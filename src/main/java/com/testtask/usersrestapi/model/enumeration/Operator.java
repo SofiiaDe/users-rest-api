@@ -1,6 +1,8 @@
 package com.testtask.usersrestapi.model.enumeration;
 
 import com.testtask.usersrestapi.model.payload.request.FilterRequest;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -57,12 +59,21 @@ public enum Operator {
       Object value = request.getFieldType().parse(request.getValue().toString());
       Object valueTo = request.getFieldType().parse(request.getValueTo().toString());
       if (request.getFieldType() == FieldType.DATE) {
+        LocalDate startDate = (LocalDate) value;
+        LocalDate endDate = (LocalDate) valueTo;
+        Expression<LocalDate> key = root.get(request.getKey());
+        return cb.and(
+            cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate)),
+            predicate);
+      }
+
+      if (request.getFieldType() == FieldType.DATETIME) {
         LocalDateTime startDate = (LocalDateTime) value;
         LocalDateTime endDate = (LocalDateTime) valueTo;
         Expression<LocalDateTime> key = root.get(request.getKey());
         return cb.and(
-            cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate)),
-            predicate);
+                cb.and(cb.greaterThanOrEqualTo(key, startDate), cb.lessThanOrEqualTo(key, endDate)),
+                predicate);
       }
 
       if (request.getFieldType() != FieldType.CHAR && request.getFieldType() != FieldType.BOOLEAN) {
