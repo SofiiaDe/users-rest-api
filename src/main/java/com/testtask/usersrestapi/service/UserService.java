@@ -13,7 +13,6 @@ import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.model.payload.request.SearchRequest;
 import com.testtask.usersrestapi.model.search.SearchSpecification;
-import com.testtask.usersrestapi.repository.IUserSearchRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +38,6 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final UserGroupRepository userGroupRepository;
     private final CommunityRepository communityRepository;
-    private final IUserSearchRepository userSearchRepository;
     private final UserMapper userMapper;
     private final AddUserToGroupMapper addUserToGroupMapper;
     private static final String USER_NOT_FOUND = "Can't retrieve user with id = ";
@@ -150,7 +148,7 @@ public class UserService implements IUserService {
     public Page<UserDto> searchUser(SearchRequest request) {
         SearchSpecification<User> specification = new SearchSpecification<>(request);
         Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
-        return userSearchRepository.findAll(specification, pageable).map(userMapper::toDto);
+        return userRepository.findAll(specification, pageable).map(userMapper::toDto);
     }
 
     private boolean emailExist(String email) {

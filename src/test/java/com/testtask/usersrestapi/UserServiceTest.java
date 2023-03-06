@@ -9,8 +9,6 @@ import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
 import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapperImpl;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapperImpl;
-import com.testtask.usersrestapi.repository.IUserRepository;
-import com.testtask.usersrestapi.repository.IUserSearchRepository;
 import com.testtask.usersrestapi.repository.CommunityRepository;
 import com.testtask.usersrestapi.repository.UserGroupRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
@@ -43,8 +41,6 @@ class UserServiceTest {
     private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
 
     @Mock
-    private IUserSearchRepository userSearchRepositoryMock;
-    @Mock
     private UserRepository userRepositoryMock;
     @Mock
     private UserGroupRepository userGroupRepository;
@@ -62,7 +58,7 @@ class UserServiceTest {
     public void setUp() {
         userMapper = new UserMapperImpl();
         addUserToGroupMapper = new AddUserToGroupMapperImpl();
-        userService = new UserService(userRepositoryMock, userGroupRepository, communityRepository, userSearchRepositoryMock, userMapper, addUserToGroupMapper);
+        userService = new UserService(userRepositoryMock, userGroupRepository, communityRepository, userMapper, addUserToGroupMapper);
         userDto = UnitTestExpectedDtoSupplier.createUserDto();
         expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
         userDtoList = UnitTestExpectedDtoSupplier.createUserDtoList();
