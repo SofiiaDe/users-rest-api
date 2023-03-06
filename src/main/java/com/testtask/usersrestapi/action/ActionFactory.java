@@ -1,5 +1,7 @@
 package com.testtask.usersrestapi.action;
 
+import com.testtask.usersrestapi.action.types.AddUserToCommunityAction;
+import com.testtask.usersrestapi.action.types.ScheduleVisitAction;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.IVisitService;
 import lombok.AllArgsConstructor;

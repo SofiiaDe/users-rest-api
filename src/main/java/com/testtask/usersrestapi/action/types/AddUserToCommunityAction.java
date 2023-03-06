@@ -1,11 +1,10 @@
-package com.testtask.usersrestapi.action;
+package com.testtask.usersrestapi.action.types;
 
+import com.testtask.usersrestapi.action.ActionBase;
 import com.testtask.usersrestapi.action.params.ActionParams;
 import com.testtask.usersrestapi.action.params.AddUserToCommunityActionParams;
-import com.testtask.usersrestapi.action.params.ScheduleVisitActionParams;
 import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecutionResult;
 import com.testtask.usersrestapi.action.validation.AddUserToCommunityValidationResult;
-import com.testtask.usersrestapi.action.validation.ScheduleVisitValidationResult;
 import com.testtask.usersrestapi.action.validation.ValidationResult;
 import com.testtask.usersrestapi.service.IUserService;
 import lombok.AllArgsConstructor;

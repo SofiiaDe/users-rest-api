@@ -1,5 +1,6 @@
-package com.testtask.usersrestapi.action;
+package com.testtask.usersrestapi.action.types;
 
+import com.testtask.usersrestapi.action.ActionBase;
 import com.testtask.usersrestapi.action.params.ActionParams;
 import com.testtask.usersrestapi.action.params.ScheduleVisitActionParams;
 import com.testtask.usersrestapi.action.result.ScheduleVisitActionExecutionResult;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ScheduleVisitAction extends ActionBase<ScheduleVisitActionExecutionResult>{
+public class ScheduleVisitAction extends ActionBase<ScheduleVisitActionExecutionResult> {
 
   private IVisitService visitService;
 
