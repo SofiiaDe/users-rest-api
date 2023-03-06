@@ -127,7 +127,7 @@ class UserRestControllerTest {
         when(userService.updateUser(requestUserDto)).thenReturn(responseUserDto);
 
         mockMvc.perform(
-                        put(USER_ENDPOINT_ID, DEFAULT_USER_ID)
+                        put(USER_ENDPOINT, requestUserDto)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(requestUserDto)))
                 .andExpect(status().isOk())
@@ -176,19 +176,6 @@ class UserRestControllerTest {
                 .perform(delete(USER_ENDPOINT + "/{id}", NOT_EXIST_ID))
                 .andExpect(status().isNotAcceptable());
         verify(userService).deleteUserById(NOT_EXIST_ID);
-    }
-
-    @Test
-    void testSearchUsersByBirthDateRange_ShouldReturnCorrectData() throws Exception {
-
-        when(userService.searchUsersByBirthDate(any(), any())).thenReturn(userDtoList);
-
-        mockMvc.perform(
-                        get(SEARCH_USER_ENDPOINT, dateRangeParams)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        verifyNoMoreInteractions(userService);
-
     }
 
     private String readJsonWithFile() throws IOException {

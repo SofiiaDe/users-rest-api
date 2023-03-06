@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserDto {
 
+    @NotNull
     private Long id;
 
     @NotBlank(message = "The email address is required.")
