@@ -11,16 +11,18 @@ import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.model.entity.UserCommunity;
 import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
+import com.testtask.usersrestapi.model.payload.request.SearchRequest;
+import com.testtask.usersrestapi.model.search.SearchSpecification;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.testtask.usersrestapi.repository.CommunityRepository;
 import com.testtask.usersrestapi.repository.UserGroupRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -140,6 +142,13 @@ public class UserService implements IUserService {
         result.setSuccess(true);
 
         return result;
+    }
+
+    @Override
+    public Page<UserDto> searchUser(SearchRequest request) {
+        SearchSpecification<User> specification = new SearchSpecification<>(request);
+        Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
+        return userRepository.findAll(specification, pageable).map(userMapper::toDto);
     }
 
     private boolean emailExist(String email) {

@@ -39,6 +39,7 @@ class UserServiceTest {
     private static final Long DEFAULT_USER_ID = 123L;
     private static final LocalDate fromDate = LocalDate.of(1980, 1, 1);
     private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
+
     @Mock
     private UserRepository userRepositoryMock;
     @Mock
