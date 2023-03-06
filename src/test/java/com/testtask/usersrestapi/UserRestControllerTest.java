@@ -174,7 +174,7 @@ class UserRestControllerTest {
 
         mockMvc
                 .perform(delete(USER_ENDPOINT + "/{id}", NOT_EXIST_ID))
-                .andExpect(status().isNotAcceptable());
+                .andExpect(status().isBadRequest());
         verify(userService).deleteUserById(NOT_EXIST_ID);
     }
 
