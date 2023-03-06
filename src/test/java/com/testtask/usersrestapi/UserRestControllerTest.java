@@ -124,14 +124,13 @@ class UserRestControllerTest {
                 .setPhoneNumber("099-000-99-99");
 
         UserDto responseUserDto = userDto;
-
         when(userService.updateUser(requestUserDto)).thenReturn(responseUserDto);
 
         mockMvc.perform(
                         put(USER_ENDPOINT_ID, DEFAULT_USER_ID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(requestUserDto)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("newEmailForUpdate@email.com")))
                 .andExpect(jsonPath("$.address", is("Odesa")))
                 .andExpect(jsonPath("$.id", is(12)))

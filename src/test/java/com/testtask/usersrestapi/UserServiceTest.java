@@ -9,6 +9,7 @@ import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
 import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapperImpl;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapperImpl;
+import com.testtask.usersrestapi.repository.CommunityRepository;
 import com.testtask.usersrestapi.repository.UserGroupRepository;
 import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.service.IUserService;
@@ -42,6 +43,8 @@ class UserServiceTest {
     private UserRepository userRepositoryMock;
     @Mock
     private UserGroupRepository userGroupRepository;
+    @Mock
+    private CommunityRepository communityRepository;
     private UserMapper userMapper;
     private AddUserToGroupMapper addUserToGroupMapper;
     private IUserService userService;
@@ -54,7 +57,7 @@ class UserServiceTest {
     public void setUp() {
         userMapper = new UserMapperImpl();
         addUserToGroupMapper = new AddUserToGroupMapperImpl();
-        userService = new UserService(userRepositoryMock, userGroupRepository, userMapper, addUserToGroupMapper);
+        userService = new UserService(userRepositoryMock, userGroupRepository, communityRepository, userMapper, addUserToGroupMapper);
         userDto = UnitTestExpectedDtoSupplier.createUserDto();
         expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
         userDtoList = UnitTestExpectedDtoSupplier.createUserDtoList();
