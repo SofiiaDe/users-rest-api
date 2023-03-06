@@ -65,6 +65,7 @@ public class UserService implements IUserService {
     @Override
     public UserDto createUser(UserDto newUser) {
         if (emailExist(newUser.getEmail())) {
+            log.error(USER_ALREADY_EXISTS + newUser.getEmail());
             throw new UserAlreadyExistsException(USER_ALREADY_EXISTS + newUser.getEmail());
         }
 
@@ -89,6 +90,7 @@ public class UserService implements IUserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception exception) {
+            log.error(CAN_NOT_DELETE_USER + id);
             throw new UserProcessingException(CAN_NOT_DELETE_USER + id);
         }
     }
