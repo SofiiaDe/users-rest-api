@@ -2,10 +2,6 @@ package com.testtask.usersrestapi.validation;
 
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
 import com.testtask.usersrestapi.utils.validation.validators.DateRangeValidator;
-import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

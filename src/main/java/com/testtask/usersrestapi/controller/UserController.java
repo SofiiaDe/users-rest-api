@@ -1,11 +1,13 @@
 package com.testtask.usersrestapi.controller;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.model.UserModelAssembler;
 import com.testtask.usersrestapi.model.payload.request.SearchRequest;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.utils.validation.DateRangeParameters;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
@@ -29,7 +31,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final IUserService userService;
-
     private final UserModelAssembler assembler;
 
     @GetMapping
@@ -48,7 +49,7 @@ public class UserController {
         EntityModel<UserDto> entityModel = assembler.toModel(userService.createUser(newUser));
 
         return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
@@ -56,44 +57,37 @@ public class UserController {
     public EntityModel<UserDto> getUserById(@PathVariable Long id) {
 
         UserDto userDto = userService.getUserById(id);
-
         return assembler.toModel(userDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     ResponseEntity<?> updateUser(@RequestBody UserDto newUser) {
 
         UserDto updatedUser = userService.updateUser(newUser);
-
         EntityModel<UserDto> entityModel = assembler.toModel(updatedUser);
 
-        return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(entityModel);
+        return ResponseEntity.ok().body(entityModel);
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> partialUpdateUser(@RequestBody Map<String, Object> updates, @PathVariable("id") Long id) {
 
         UserDto partiallyUpdatedUser = userService.patchUpdateUser(updates, id);
-
         EntityModel<UserDto> entityModel = assembler.toModel(partiallyUpdatedUser);
 
-        return ResponseEntity
-                .ok(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri());
+        return ResponseEntity.ok().body(entityModel);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         userService.deleteUserById(id);
-
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search")
     public CollectionModel<EntityModel<UserDto>> searchUsersByBirthDateRange(
-            @Valid DateRangeParameters parameters) {
+            @Valid @RequestBody DateRangeParameters parameters) {
 
         List<EntityModel<UserDto>> users = userService.searchUsersByBirthDate(parameters.from(), parameters.to()).stream()
                 .map(assembler::toModel)

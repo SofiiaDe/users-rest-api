@@ -1,8 +1,14 @@
-package com.testtask.usersrestapi.model;
+package com.testtask.usersrestapi.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.testtask.usersrestapi.utils.validation.constraints.BirthDateValidation;
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +16,12 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
-    @NotNull
     private Long id;
 
     @NotBlank(message = "The email address is required.")

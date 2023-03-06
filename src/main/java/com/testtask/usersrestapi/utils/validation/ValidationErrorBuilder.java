@@ -1,6 +1,6 @@
 package com.testtask.usersrestapi.utils.validation;
 
-import jakarta.validation.ConstraintViolation;
+import javax.validation.ConstraintViolation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 

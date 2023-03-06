@@ -1,6 +1,6 @@
 package com.testtask.usersrestapi;
 
-import com.testtask.usersrestapi.model.User;
+import com.testtask.usersrestapi.model.entity.User;
 
 import java.time.LocalDate;
 import java.util.List;

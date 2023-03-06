@@ -1,6 +1,8 @@
 package com.testtask.usersrestapi.service;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.action.params.AddUserToCommunityActionParams;
+import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecutionResult;
+import com.testtask.usersrestapi.model.dto.UserDto;
 
 import com.testtask.usersrestapi.model.payload.request.SearchRequest;
 import java.time.LocalDate;
@@ -26,4 +28,5 @@ public interface IUserService {
 
     Page<UserDto> searchUser(SearchRequest request);
 
+    AddUserToCommunityActionExecutionResult addUserToCommunity(AddUserToCommunityActionParams actionParams);
 }
