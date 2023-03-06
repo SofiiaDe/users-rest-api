@@ -3,11 +3,15 @@ package com.testtask.usersrestapi;
 import com.testtask.usersrestapi.exception.UserAlreadyExistsException;
 import com.testtask.usersrestapi.exception.UserNotFoundException;
 import com.testtask.usersrestapi.exception.UserProcessingException;
-import com.testtask.usersrestapi.model.User;
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.entity.User;
+import com.testtask.usersrestapi.model.dto.UserDto;
+import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapper;
+import com.testtask.usersrestapi.model.mapper.AddUserToGroupMapperImpl;
 import com.testtask.usersrestapi.model.mapper.UserMapper;
 import com.testtask.usersrestapi.model.mapper.UserMapperImpl;
-import com.testtask.usersrestapi.repository.IUserRepository;
+import com.testtask.usersrestapi.repository.CommunityRepository;
+import com.testtask.usersrestapi.repository.UserGroupRepository;
+import com.testtask.usersrestapi.repository.UserRepository;
 import com.testtask.usersrestapi.service.IUserService;
 import com.testtask.usersrestapi.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,8 +40,13 @@ class UserServiceTest {
     private static final LocalDate fromDate = LocalDate.of(1980, 1, 1);
     private static final LocalDate toDate = LocalDate.of(1996, 12, 31);
     @Mock
-    private IUserRepository userRepositoryMock;
+    private UserRepository userRepositoryMock;
+    @Mock
+    private UserGroupRepository userGroupRepository;
+    @Mock
+    private CommunityRepository communityRepository;
     private UserMapper userMapper;
+    private AddUserToGroupMapper addUserToGroupMapper;
     private IUserService userService;
     private UserDto userDto;
     private User expectedUser;
@@ -47,7 +56,8 @@ class UserServiceTest {
     @BeforeEach
     public void setUp() {
         userMapper = new UserMapperImpl();
-        userService = new UserService(userRepositoryMock, userMapper);
+        addUserToGroupMapper = new AddUserToGroupMapperImpl();
+        userService = new UserService(userRepositoryMock, userGroupRepository, communityRepository, userMapper, addUserToGroupMapper);
         userDto = UnitTestExpectedDtoSupplier.createUserDto();
         expectedUser = UnitTestExpectedEntitySupplier.createUserEntity();
         userDtoList = UnitTestExpectedDtoSupplier.createUserDtoList();

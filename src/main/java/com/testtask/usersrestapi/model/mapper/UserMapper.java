@@ -1,7 +1,7 @@
 package com.testtask.usersrestapi.model.mapper;
 
-import com.testtask.usersrestapi.model.User;
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.entity.User;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

@@ -1,13 +1,14 @@
 package com.testtask.usersrestapi.validation;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.model.dto.UserDto;
 import com.testtask.usersrestapi.utils.validation.validators.UserDtoValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.validation.ConstraintValidatorContext;
 
 import static com.testtask.usersrestapi.UnitTestExpectedDtoSupplier.createUserDto;
 import static org.junit.jupiter.api.Assertions.assertTrue;

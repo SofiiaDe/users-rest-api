@@ -1,6 +1,8 @@
 package com.testtask.usersrestapi.service;
 
-import com.testtask.usersrestapi.model.UserDto;
+import com.testtask.usersrestapi.action.params.AddUserToCommunityActionParams;
+import com.testtask.usersrestapi.action.result.AddUserToCommunityActionExecutionResult;
+import com.testtask.usersrestapi.model.dto.UserDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,4 +23,6 @@ public interface IUserService {
     UserDto patchUpdateUser(Map<String, Object> updates, Long id);
 
     List<UserDto> searchUsersByBirthDate(LocalDate fromDate, LocalDate toDate);
+
+    AddUserToCommunityActionExecutionResult addUserToCommunity(AddUserToCommunityActionParams actionParams);
 }
